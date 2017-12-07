@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <h2 data-bind="text: title"></h2>
+
+   <button data-bind="click: getLinks()">First page</button>
+
+    <table>
+        <tbody data-bind="foreach: links">
+            <tr>
+                <td data-bind="text: $data.title"></td>
+                <td><button data-bind="click: $parent.getPost.bind($parent, $data.link)">link</button></td>
+                <td data-bind="text: $data.body"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div data-bind="visible: showNext"><button data-bind="click: getNext">next</button></div> 
+    <div data-bind="visible: showPrev"><button data-bind="click: getPrev">prev</button></div> 
+
+    <div data-bind="text: specificPostTitle" id="data">adsaa</div> 
+    <p></p>
+    <div data-bind="text: specificPostBody" id="data"></div>
+
+</body>
+</html>

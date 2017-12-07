@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>index</title>
+</head>
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+<div data-bind="component: {name: currentView, params: currentParams}"></div>
+    
+<button data-bind="click: switchComponent">Switch</button>
+
+
+<script data-main="js/main" src="lib/requirejs/require.js"></script>
+</body>
+</html>
