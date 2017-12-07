@@ -33,7 +33,7 @@ namespace WebService.Controllers
             }
             var posts = _dataService.getPost(page, pageSize)
             .Select(x => new {
-                 Link = Url.Link(nameof(GetPost), new { x.id }),
+                 Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
                  Body = x.text,
                  x.title
              });
@@ -54,7 +54,14 @@ namespace WebService.Controllers
         [HttpGet("{id}",Name = nameof(GetSpecificPost))]
         public IActionResult GetSpecificPost(int id)
         {
-            return Ok();
+            var post = _dataService.getPostById(id)
+                .Select(x => new {
+                    Link = Url.Link("GetCommentsByPost", new { postId = id }),
+                    x.title,
+                    Body = x.text
+                });
+
+            return Ok(post);
         }
 
         [HttpGet("tag/{tagName}", Name = nameof(GetPostByTag))]

@@ -93,6 +93,31 @@ namespace Subproject_2
             }
         }
 
+        public List<Post> getPostById(int id)
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var query =
+                    (from u in db.Posts
+                     where u.id.Equals(id)  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
+                     select new Post
+                     {
+                         id = u.id,
+                         type = u.type,
+                         parent_id = u.parent_id,
+                         answer_id = u.answer_id,
+                         creationDate = u.creationDate,
+                         score = u.score,
+                         text = u.text,
+                         closedDate = u.closedDate,
+                         title = u.title
+                     })
+                     .ToList();
+
+                return query;
+            }
+        }
+
         public List<Post> getPostByTag(string tag, int page, int pageSize)
         {
             using (var db = new stackOverflowContext())

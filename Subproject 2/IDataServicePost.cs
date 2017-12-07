@@ -8,6 +8,7 @@ namespace Subproject_2
     {
         List<Post> getPost(int pageint, int pageSize);
 
+        List<Post> getPostById(int id);
 
         List<Post> getPostWord(string postword, int page, int pageSize);
 

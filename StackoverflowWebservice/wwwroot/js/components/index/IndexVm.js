@@ -1,4 +1,5 @@
 ﻿define(['knockout', 'postman'], function (ko, postman) {
+
     return function (params) {
 
         var title = ko.observable("Titel!");
@@ -8,11 +9,27 @@
 
         var links = ko.observableArray([]);    // Initially an empty array
 
+        var bodyTextDiv = ko.observable(false);
+
+        var showComments = ko.observable(false);
+        var currentPostComments = ko.observableArray([]);
+        var currentPostLink = ko.observable("");
+
         var next = ko.observable();
         var prev = ko.observable();
 
         var showNext = ko.observable(false);
         var showPrev = ko.observable(false);
+
+        var showBody = function () {
+            console.log(bodyTextDiv())
+            if (bodyTextDiv() == false) {
+                bodyTextDiv(true);
+            }
+            else {
+                bodyTextDiv(false);
+            }
+        }
 
         var getNext = function () {
             getLinks(next);
@@ -23,7 +40,7 @@
         }
 
         var getPost = function (myUrl) {
-            console.log(myUrl);
+            showComments(false);
             $.ajax({
                 url: myUrl,
                 type: "GET",
@@ -34,8 +51,29 @@
                 cache: false,
                 success: function (data) {
                     console.log(data);
-                    specificPostTitle(JSON.stringify(data.title));
-                    specificPostBody(JSON.stringify(data.text));
+                    specificPostTitle(data[0].title);
+                    specificPostBody(data[0].body);
+                    currentPostLink(data[0].link);
+                }
+            });
+        }
+
+        var getComments = function () {
+            currentPostComments.removeAll();
+            $.ajax({
+                url: currentPostLink(),
+                type: "GET",
+                crossDomain: true,
+                dataType: 'json',
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    for (i = 0; i < data.comments.length; i++) {
+                        currentPostComments.push(data.comments[i]);
+                    }
+                    showComments(true);
+                    console.log(currentPostComments());
                 }
             });
         }
@@ -61,7 +99,7 @@
                 success: function (data) {
                     console.log(data.data[0].link);
                     for (i = 0; i < data.data.length; i++) {
-                            links.push(data.data[i]);
+                        links.push(data.data[i]);
                     }
                     console.log(data);
                     next = data.next;
@@ -92,7 +130,12 @@
         return {
             links,
             specificPostTitle,
+            bodyTextDiv,
+            getComments,
             specificPostBody,
+            showComments,
+            currentPostComments,
+            showBody,
             getPost,
             getNext,
             getPrev,

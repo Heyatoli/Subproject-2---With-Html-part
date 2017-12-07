@@ -15,7 +15,6 @@
             <tr>
                 <td data-bind="text: $data.title"></td>
                 <td><button data-bind="click: $parent.getPost.bind($parent, $data.link)">link</button></td>
-                <td data-bind="text: $data.body"></td>
             </tr>
         </tbody>
     </table>
@@ -26,6 +25,17 @@
     <div data-bind="text: specificPostTitle" id="data">adsaa</div> 
     <p></p>
     <div data-bind="text: specificPostBody" id="data"></div>
+    <button data-bind="click: getComments">Comments</button>
+
+    <div data-bind="visible: showComments">
+        <table>
+            <tbody data-bind="foreach: currentPostComments">
+                <tr>
+                    <td data-bind="text: $data.text"></td><td data-bind="text: $data.score"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>
