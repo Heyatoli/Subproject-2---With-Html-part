@@ -49,28 +49,16 @@
             var myUrl = "http://localhost:5001/api/posts/tag/" + tag();
             links.removeAll();
 
-            $.ajax({
-                url: myUrl,
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    console.log(data);
-
-                    for (i = 0; i < data.data.length; i++) {
-                        links.push(data.data[i]);
-                    }
-                    console.log(data);
-                    next = data.next;
-                    prev = data.prev;
-                    displayNextPrev(data.next, data.prev);
-
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
                 }
-            });
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
 
+            webservice.getPostQ(myUrl, cb);
         }
 
         var getPostQ = function (myUrl) {
@@ -78,7 +66,6 @@
                //Calling function from Webservice
 
             var cb = function (data) {
-                console.log("IAMHERE")
                 console.log(data);
                 specificPostTitle(data[0].title);
                 specificPostBody(data[0].body);
@@ -94,28 +81,35 @@
         }
 
         var getComments = function () {
+
             currentPostComments.removeAll();
-            $.ajax({
-                url: currentPostLink(),
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    for (i = 0; i < data.comments.length; i++) {
-                        currentPostComments.push(data.comments[i]);
-                    }
-                    showComments(true);
-                    console.log(currentPostComments());
+
+            var cb = function (data) {
+                for (i = 0; i < data.comments.length; i++) {
+                    currentPostComments.push(data.comments[i]);
                 }
-            });
+                showComments(true);
+                console.log(currentPostComments());
+            };
+
+            var myUrl = currentPostLink();
+
+            webservice.getPostQ(myUrl, cb);
         }
 
         var getLinks = function (url) {
 
             links.removeAll();
+
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                console.log(data);
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
 
             var myUrl = url;
 
@@ -123,25 +117,9 @@
                 myUrl = "http://localhost:5001/api/posts";
             }
 
-            $.ajax({
-                url: myUrl,
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    console.log(data.data[0].link);
-                    for (i = 0; i < data.data.length; i++) {
-                        links.push(data.data[i]);
-                    }
-                    console.log(data);
-                    next = data.next;
-                    prev = data.prev;
-                    displayNextPrev(data.next, data.prev);
-                }
-            });
+            webservice.getPostQ(myUrl, cb);
+
+            
         };
 
         var displayNextPrev = function (next, prev) {
