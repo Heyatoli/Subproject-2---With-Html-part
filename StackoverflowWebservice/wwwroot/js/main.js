@@ -8,7 +8,8 @@ require.config({
         jquery: '../lib/jQuery/dist/jquery.min',
         knockout: '../lib/knockout/dist/knockout',
         text: '../lib/text/text',
-        postman: 'services/postman'
+        postman: 'services/postman',
+        webservice: 'services/WebserviceCalls'
     }
 });
 

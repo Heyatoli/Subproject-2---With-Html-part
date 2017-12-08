@@ -140,12 +140,11 @@ namespace Subproject_2
                          text = p.text,
                          closedDate = p.closedDate,
                          title = p.title
-                     }).OrderBy(u => u.id)
+                     }).GroupBy(u => u.id)
+                     .Select(o => o.FirstOrDefault())
                      .Skip(page * pageSize)
                      .Take(pageSize)
                      .ToList();
-
-                Console.WriteLine(query.FirstOrDefault().title);
 
                 return query;
             }

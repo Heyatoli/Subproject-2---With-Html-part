@@ -1,8 +1,12 @@
-﻿define(['knockout', 'postman'], function (ko, postman) {
+﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
 
     return function (params) {
 
         var title = ko.observable("Titel!");
+
+        var tag = ko.observable("");
+
+        var displayingTagPosts = false;
 
         var specificPostTitle = ko.observable("");
         var specificPostBody = ko.observable("");
@@ -39,8 +43,12 @@
             getLinks(prev);
         }
 
-        var getPost = function (myUrl) {
-            showComments(false);
+        var getPostWithTag = function () {
+            console.log(tag());
+
+            var myUrl = "http://localhost:5001/api/posts/tag/" + tag();
+            links.removeAll();
+
             $.ajax({
                 url: myUrl,
                 type: "GET",
@@ -51,11 +59,37 @@
                 cache: false,
                 success: function (data) {
                     console.log(data);
-                    specificPostTitle(data[0].title);
-                    specificPostBody(data[0].body);
-                    currentPostLink(data[0].link);
+
+                    for (i = 0; i < data.data.length; i++) {
+                        links.push(data.data[i]);
+                    }
+                    console.log(data);
+                    next = data.next;
+                    prev = data.prev;
+                    displayNextPrev(data.next, data.prev);
+
                 }
             });
+
+        }
+
+        var getPost = function (myUrl) {
+
+               //Calling function from Webservice
+
+            var cb = function (data) {
+                console.log(data);
+                specificPostTitle(data[0].title);
+                specificPostBody(data[0].body);
+                currentPostLink(data[0].link);
+            };
+
+            webservice.getPost(myUrl, cb);
+
+
+
+            showComments(false);
+            
         }
 
         var getComments = function () {
@@ -129,6 +163,8 @@
 
         return {
             links,
+            getPostWithTag,
+            tag,
             specificPostTitle,
             bodyTextDiv,
             getComments,
