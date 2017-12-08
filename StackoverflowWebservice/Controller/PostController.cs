@@ -22,16 +22,16 @@ namespace WebService.Controllers
             _dataService = dataService;
         }
 
-        [HttpGet(Name = nameof(GetPost))]
-        public IActionResult GetPost(int page = 0, int pageSize = standardPageSize)
+        [HttpGet(Name = nameof(GetPostQ))]
+        public IActionResult GetPostQ(int page = 0, int pageSize = standardPageSize)
         {
-            var totalPosts = _dataService.amountPost();
-            var totalPages = GetTotalPages(pageSize, totalPosts);
+            var totalPostsQ = _dataService.amountPostQ();
+            var totalPages = GetTotalPages(pageSize, totalPostsQ);
             if (page > totalPages - 1)
             {
                 page = 0;
             }
-            var posts = _dataService.getPost(page, pageSize)
+            var posts = _dataService.getPostQ(page, pageSize)
             .Select(x => new
             {
                 Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
@@ -41,12 +41,42 @@ namespace WebService.Controllers
             if (posts == null) return NotFound();
             var result = new
             {
-                Total = totalPosts,
+                Total = totalPostsQ,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetPost), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetPost), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetPost), page, pageSize),
+                Prev = Link(nameof(GetPostQ), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostQ), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostQ), page, pageSize),
+                Data = posts
+            };
+            return Ok(result);
+        }
+
+        [HttpGet("answers/{id}", Name = nameof(GetPostA))]
+        public IActionResult GetPostA(int id ,int page = 0, int pageSize = standardPageSize)
+        {
+            var totalPostsA = _dataService.amountPostA(id);
+            var totalPages = GetTotalPages(pageSize, totalPostsA);
+            if (page > totalPages - 1)
+            {
+                page = 0;
+            }
+            var posts = _dataService.getPostA(id, page, pageSize)
+            .Select(x => new
+            {
+                Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
+                Body = x.text,
+                x.title
+            });
+            if (posts == null) return NotFound();
+            var result = new
+            {
+                Total = totalPostsA,
+                Pages = totalPages,
+                Page = page,
+                Prev = Link(nameof(GetPostA), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostA), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostA), page, pageSize),
                 Data = posts
             };
             return Ok(result);
@@ -120,9 +150,9 @@ namespace WebService.Controllers
                 Total = totalPosts,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetPost), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetPost), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetPost), page, pageSize),
+                Prev = Link(nameof(GetPostQ), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostQ), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostQ), page, pageSize),
                 Data = posts
             };
             return Ok(result);
@@ -144,9 +174,9 @@ namespace WebService.Controllers
                 Total = totalPosts,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetPost), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetPost), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetPost), page, pageSize),
+                Prev = Link(nameof(GetPostQ), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostQ), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostQ), page, pageSize),
                 Data = posts
             };
             return Ok(result);

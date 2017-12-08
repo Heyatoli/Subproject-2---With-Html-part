@@ -66,33 +66,6 @@ namespace Subproject_2
             }
         }
 
-        public List<Post> getPost(int page, int pageSize)
-        {
-            using (var db = new stackOverflowContext())
-            {
-                var query =
-                    (from u in db.Posts
-                     where u.type == 1  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
-                     select new Post
-                     {
-                         id = u.id,
-                         type = u.type,
-                         parent_id = u.parent_id,
-                         answer_id = u.answer_id,
-                         creationDate = u.creationDate,
-                         score = u.score,
-                         text = u.text,
-                         closedDate = u.closedDate,
-                         title = u.title
-                     }).OrderBy(u => u.id)
-                     .Skip(page * pageSize)
-                     .Take(pageSize)
-                     .ToList();
-
-                return query;
-            }
-        }
-
         public List<Post> getPostById(int id)
         {
             using (var db = new stackOverflowContext())
@@ -206,20 +179,6 @@ namespace Subproject_2
             }
         }
 
-        public int amountPost()
-        {
-            using (var db = new stackOverflowContext())
-            {
-                var q =
-                    (from p in db.Posts
-                     select new Post
-                     {
-                         id = p.id
-                     }).ToList();
-                return q.Count();
-            }
-        }
-
         public int amountPostWord(string postWord)
         {
             using (var db = new stackOverflowContext())
@@ -287,6 +246,91 @@ namespace Subproject_2
                          score = c.score
                      }).ToList();
 
+                return q.Count();
+            }
+        }
+
+        public List<Post> getPostQ(int page, int pageSize)
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var query =
+                    (from u in db.Posts
+                     where u.type == 1  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
+                     select new Post
+                     {
+                         id = u.id,
+                         type = u.type,
+                         parent_id = u.parent_id,
+                         answer_id = u.answer_id,
+                         creationDate = u.creationDate,
+                         score = u.score,
+                         text = u.text,
+                         closedDate = u.closedDate,
+                         title = u.title
+                     }).OrderBy(u => u.id)
+                     .Skip(page * pageSize)
+                     .Take(pageSize)
+                     .ToList();
+
+                return query;
+            }
+        }
+    
+
+        public List<Post> getPostA(int id, int page, int pageSize)
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var query =
+                    (from u in db.Posts
+                     where u.type == 2 && u.parent_id == id//Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
+                     select new Post
+                     {
+                         id = u.id,
+                         type = u.type,
+                         parent_id = u.parent_id,
+                         answer_id = u.answer_id,
+                         creationDate = u.creationDate,
+                         score = u.score,
+                         text = u.text,
+                         closedDate = u.closedDate,
+                         title = u.title
+                     }).OrderBy(u => u.id)
+                     .Skip(page * pageSize)
+                     .Take(pageSize)
+                     .ToList();
+
+                return query;
+            }
+        }
+
+        public int amountPostQ()
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var q =
+                    (from p in db.Posts
+                     where p.type == 1
+                     select new Post
+                     {
+                         id = p.id
+                     }).ToList();
+                return q.Count();
+            }
+        }
+
+        public int amountPostA(int id)
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var q =
+                    (from p in db.Posts
+                     where p.type == 2 && p.parent_id == id 
+                     select new Post
+                     {
+                         id = p.id
+                     }).ToList();
                 return q.Count();
             }
         }

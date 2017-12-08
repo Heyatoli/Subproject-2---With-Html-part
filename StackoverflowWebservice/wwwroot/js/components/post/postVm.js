@@ -73,7 +73,7 @@
 
         }
 
-        var getPost = function (myUrl) {
+        var getPostQ = function (myUrl) {
 
                //Calling function from Webservice
 
@@ -85,8 +85,6 @@
             };
 
             webservice.getPost(myUrl, cb);
-
-
 
             showComments(false);
             

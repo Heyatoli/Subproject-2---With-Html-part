@@ -6,7 +6,9 @@ namespace Subproject_2
 {
     public interface IDataServicePost
     {
-        List<Post> getPost(int pageint, int pageSize);
+        List<Post> getPostQ(int page, int pageSize);
+
+        List<Post> getPostA(int id, int page, int pageSize);
 
         List<Post> getPostById(int id);
 
@@ -18,7 +20,9 @@ namespace Subproject_2
 
         Post getCommments(int postid, int page, int pageSize);
 
-        int amountPost();
+        int amountPostQ();
+
+        int amountPostA(int id);
 
         int amountPostWord(string postWord);
 
