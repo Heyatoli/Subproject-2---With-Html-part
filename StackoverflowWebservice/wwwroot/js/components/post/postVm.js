@@ -78,13 +78,16 @@
                //Calling function from Webservice
 
             var cb = function (data) {
+                console.log("IAMHERE")
                 console.log(data);
                 specificPostTitle(data[0].title);
                 specificPostBody(data[0].body);
                 currentPostLink(data[0].link);
             };
 
-            webservice.getPost(myUrl, cb);
+            webservice.getPostQ(myUrl, cb);
+
+
 
             showComments(false);
             
@@ -170,7 +173,7 @@
             showComments,
             currentPostComments,
             showBody,
-            getPost,
+            getPostQ,
             getNext,
             getPrev,
             title,
