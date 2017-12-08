@@ -13,7 +13,9 @@
             async: true,
             processData: false,
             cache: false,
-            success: callback(data)
+            success: function (data) {
+                callback(data);
+            }
         });
     };
 
