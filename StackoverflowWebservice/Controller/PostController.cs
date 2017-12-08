@@ -27,16 +27,17 @@ namespace WebService.Controllers
         {
             var totalPosts = _dataService.amountPost();
             var totalPages = GetTotalPages(pageSize, totalPosts);
-            if (page > totalPages-1)
+            if (page > totalPages - 1)
             {
                 page = 0;
             }
             var posts = _dataService.getPost(page, pageSize)
-            .Select(x => new {
-                 Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
-                 Body = x.text,
-                 x.title
-             });
+            .Select(x => new
+            {
+                Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
+                Body = x.text,
+                x.title
+            });
             if (posts == null) return NotFound();
             var result = new
             {
@@ -51,11 +52,12 @@ namespace WebService.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}",Name = nameof(GetSpecificPost))]
+        [HttpGet("{id}", Name = nameof(GetSpecificPost))]
         public IActionResult GetSpecificPost(int id)
         {
             var post = _dataService.getPostById(id)
-                .Select(x => new {
+                .Select(x => new
+                {
                     Link = Url.Link("GetCommentsByPost", new { postId = id }),
                     x.title,
                     Body = x.text
@@ -73,16 +75,22 @@ namespace WebService.Controllers
             {
                 page = 0;
             }
-            var post = _dataService.getPostByTag(tagName, page, pageSize);
+            var post = _dataService.getPostByTag(tagName, page, pageSize)
+                .Select(x => new
+                {
+                    Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
+                    Body = x.text,
+                    x.title
+                }); ;
             if (post == null) return NotFound();
             var result = new
             {
                 Total = totalPosts,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetPost), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetPost), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetPost), page, pageSize),
+                Prev = Link(nameof(GetPostByTag), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostByTag), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostByTag), page, pageSize),
                 Data = post
             };
             return Ok(result);
