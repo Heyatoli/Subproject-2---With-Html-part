@@ -65,8 +65,9 @@ namespace WebService.Controllers
             .Select(x => new
             {
                 Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
+                CommentsLink = Url.Link("GetCommentsByPost", new { postId = x.id }),
                 Body = x.text,
-                x.title
+                x.title,
             });
             if (posts == null) return NotFound();
             var result = new
@@ -88,7 +89,8 @@ namespace WebService.Controllers
             var post = _dataService.getPostById(id)
                 .Select(x => new
                 {
-                    Link = Url.Link("GetCommentsByPost", new { postId = id }),
+                    CommentsLink = Url.Link("GetCommentsByPost", new { postId = id }),
+                    AnswersLink = Url.Link("GetPostA", new { postId = id}),
                     x.title,
                     Body = x.text
                 });
@@ -127,11 +129,29 @@ namespace WebService.Controllers
         }
 
         [HttpGet("comments/{postId}", Name = nameof(GetCommentsByPost))]
-        public IActionResult GetCommentsByPost(int postId, int page = 0, int pageSize = standardPageSize)
+        public IActionResult GetCommentsByPost(int postId, int page = 0, int pageSize = 2)
         {
+
+            var totalComments = _dataService.amountComments(postId);
+            var totalPages = GetTotalPages(pageSize, totalComments);
+            if (page > totalPages - 1)
+            {
+                page = 0;
+            }
+
             var comments = _dataService.getCommments(postId, page, pageSize);
             if (comments == null) return NotFound();
-            return Ok(comments);
+            var result = new
+            {
+                Total = totalComments,
+                Pages = totalPages,
+                Page = page,
+                Prev = Link(nameof(GetCommentsByPost), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetCommentsByPost), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetCommentsByPost), page, pageSize),
+                Data = comments
+            };
+            return Ok(result);
         }
 
         [HttpGet("user/{userId}", Name = nameof(GetPostsByUserId))]

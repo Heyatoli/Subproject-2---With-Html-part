@@ -49,7 +49,10 @@ namespace Subproject_2
                         score = c.score,
                         text = c.text,
                         creationDate = c.creationDate,
-                    }).ToList();
+                    })
+                    .Skip(page * pageSize)
+                    .Take(pageSize)
+                    .ToList();
 
                 var query2 =
                     (from p in db.Posts

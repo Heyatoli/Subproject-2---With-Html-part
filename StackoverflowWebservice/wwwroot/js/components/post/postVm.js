@@ -6,8 +6,6 @@
 
         var tag = ko.observable("");
 
-        var displayingTagPosts = false;
-
         var specificPostTitle = ko.observable("");
         var specificPostBody = ko.observable("");
 
@@ -17,13 +15,29 @@
 
         var showComments = ko.observable(false);
         var currentPostComments = ko.observableArray([]);
-        var currentPostLink = ko.observable("");
+
+        var showAnswers = ko.observable(true);
+        var currentPostAnswers = ko.observableArray([]);
+
+        var currentPost = ko.observable("");
 
         var next = ko.observable();
         var prev = ko.observable();
 
+        var nextAnswers = ko.observable();
+        var prevAnswers = ko.observable();
+
+        var nextComments = ko.observable();
+        var prevComments = ko.observable();
+
         var showNext = ko.observable(false);
         var showPrev = ko.observable(false);
+
+        var showNextAnswers = ko.observable(false);
+        var showPrevAnswers = ko.observable(false);
+
+        var showNextComments = ko.observable(false);
+        var showPrevComments = ko.observable(false);
 
         var showBody = function () {
             console.log(bodyTextDiv())
@@ -41,6 +55,26 @@
 
         var getPrev = function () {
             getLinks(prev);
+        }
+
+        var getNextAnswers = function () {
+            showAnswers(false);
+            getAnswers(nextAnswers);
+        }
+
+        var getPrevAnswers = function () {
+            showAnswers(false);
+            getAnswers(prevAnswers);
+        }
+
+        var getNextComments = function () {
+            showComments(false);
+            getComments(nextComments);
+        }
+
+        var getPrevComments = function () {
+            showComments(false);
+            getComments(prevComments);
         }
 
         var getPostWithTag = function () {
@@ -66,10 +100,10 @@
                //Calling function from Webservice
 
             var cb = function (data) {
-                console.log(data);
                 specificPostTitle(data[0].title);
                 specificPostBody(data[0].body);
-                currentPostLink(data[0].link);
+                console.log(data[0]);
+                currentPost(data[0]);
             };
 
             webservice.getPostQ(myUrl, cb);
@@ -80,22 +114,70 @@
             
         }
 
-        var getComments = function () {
+        var getComments = function (url = null) {
 
+            var myUrl = currentPost().commentsLink;
+
+            console.log(url);
+
+            if (url !== null) {
+                myUrl = url;
+            }
+            
             currentPostComments.removeAll();
 
-            var cb = function (data) {
-                for (i = 0; i < data.comments.length; i++) {
-                    currentPostComments.push(data.comments[i]);
-                }
+            if (showComments() === true) {
+                showComments(false);
+            }
+            else {
                 showComments(true);
-                console.log(currentPostComments());
-            };
+            }
 
-            var myUrl = currentPostLink();
+            var cb = function (data) {
+                console.log(data);
+                for (i = 0; i < data.data.comments.length; i++) {
+                    currentPostComments.push(data.data.comments[i]);
+                }
+                nextComments = data.next;
+                prevComments = data.prev;
+                displayNextPrevComments(data.next, data.prev);
+            };
 
             webservice.getPostQ(myUrl, cb);
         }
+
+        var getAnswers = function (url = null) {
+
+            currentPostAnswers.removeAll();
+            var myUrl = currentPost().answersLink;
+
+            if (url !== null) {
+                myUrl = url;
+            }
+
+            showComments(false);
+
+            if (showAnswers() === true) {
+                showAnswers(false);
+            }
+            else {
+                showAnswers(true);
+            }
+
+            var cb = function (data) {
+
+                for (i = 0; i < data.data.length; i++) {
+                    currentPostAnswers.push(data.data[i]);
+                }
+                console.log(data.next + " Test ");
+                nextAnswers = data.next;
+                prevAnswers = data.prev;
+                displayNextPrevAnswers(data.next, data.prev);
+                console.log(currentPostAnswers());
+            };
+
+            webservice.getPostQ(myUrl, cb);
+        };
 
         var getLinks = function (url) {
 
@@ -123,21 +205,48 @@
         };
 
         var displayNextPrev = function (next, prev) {
-
             if (next != null) {
                 showNext(true);
             }
             else {
                 showNext(false);
             }
-
             if (prev != null) {
                 showPrev(true);
             }
             else {
                 showPrev(false);
             }
+        }
 
+        var displayNextPrevAnswers = function (next, prev) {
+            if (next != null) {
+                showNextAnswers(true);
+            }
+            else {
+                showNextAnswers(false);
+            }
+            if (prev != null) {
+                showPrevAnswers(true);
+            }
+            else {
+                showPrevAnswers(false);
+            }
+        }
+
+        var displayNextPrevComments = function (next, prev) {
+            if (next != null) {
+                showNextComments(true);
+            }
+            else {
+                showNextComments(false);
+            }
+            if (prev != null) {
+                showPrevComments(true);
+            }
+            else {
+                showPrevComments(false);
+            }
         }
 
         return {
@@ -147,18 +256,27 @@
             specificPostTitle,
             bodyTextDiv,
             getComments,
+            getAnswers,
             specificPostBody,
             showComments,
+            showAnswers,
+            currentPostAnswers,
             currentPostComments,
             showBody,
             getPostQ,
             getNext,
             getPrev,
+            getNextAnswers,
+            getPrevAnswers,
+            getNextComments,
+            getPrevComments,
             title,
-            next,
-            prev,
             showNext,
             showPrev,
+            showNextAnswers,
+            showPrevAnswers,
+            showNextComments,
+            showPrevComments,
             getLinks,
             displayNextPrev
 
