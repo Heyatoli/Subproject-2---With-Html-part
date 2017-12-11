@@ -113,7 +113,7 @@ namespace WebService.Controllers
                     Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
                     Body = x.text,
                     x.title
-                }); ;
+                });
             if (post == null) return NotFound();
             var result = new
             {
@@ -187,16 +187,23 @@ namespace WebService.Controllers
             {
                 page = 0;
             }
-            var posts = _dataService.getPostWord(substring, page, pageSize);
+            var posts = _dataService.getPostWord(substring, page, pageSize)
+               .Select(x => new
+               {
+                   Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
+                   Body = x.text,
+                   x.title
+               });
+
             if (posts == null) return NotFound();
             var result = new
             {
                 Total = totalPosts,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetPostQ), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetPostQ), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetPostQ), page, pageSize),
+                Prev = Link(nameof(GetPostsByName), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetPostsByName), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetPostsByName), page, pageSize),
                 Data = posts
             };
             return Ok(result);

@@ -5,6 +5,7 @@
         var title = ko.observable("Titel!");
 
         var tag = ko.observable("");
+        var postTitle = ko.observable("");
 
         var specificPostTitle = ko.observable("");
         var specificPostBody = ko.observable("");
@@ -95,6 +96,24 @@
             webservice.getPostQ(myUrl, cb);
         }
 
+        var getPostWithTitle = function () {
+            console.log(postTitle());
+
+            var myUrl = "http://localhost:5001/api/posts/title/" + postTitle();
+            links.removeAll();
+
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
+
+            webservice.getPostQ(myUrl, cb);
+        }
+
         var getPostQ = function (myUrl) {
 
                //Calling function from Webservice
@@ -107,8 +126,6 @@
             };
 
             webservice.getPostQ(myUrl, cb);
-
-
 
             showComments(false);
             
@@ -157,14 +174,14 @@
 
             showComments(false);
 
-            if (showAnswers() === true) {
-                showAnswers(false);
-            }
-            else {
-                showAnswers(true);
-            }
-
             var cb = function (data) {
+
+                if (showAnswers() === true) {
+                    showAnswers(false);
+                }
+                else {
+                    showAnswers(true);
+                }
 
                 for (i = 0; i < data.data.length; i++) {
                     currentPostAnswers.push(data.data[i]);
@@ -252,6 +269,8 @@
         return {
             links,
             getPostWithTag,
+            getPostWithTitle,
+            postTitle,
             tag,
             specificPostTitle,
             bodyTextDiv,
