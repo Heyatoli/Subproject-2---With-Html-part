@@ -13,15 +13,13 @@
             var myUrl = "http://localhost:5001/api/posts/words/" + search();
 
             var cb = function (data) {
-                for (i = 0; i < data.length; i++) {
+                words.removeAll();
+                for (i = 0; i < 10; i++) {
                     words.push(data[i]);
                 }
-                console.log(words());
-                myCloud = $('#cloud').jQCloud(words);
+                test(words());
             };
-
             webservice.getPostQ(myUrl, cb);
-
         }
 
 

@@ -9,19 +9,12 @@
 
     <h1>I am here - Yo</h1>
 
-    Search for words <input data-bind ="value: search" /> 
+    Search for words <input data-bind="value: search" />
     <button data-bind="click: getSearch">Click me</button>
-    <button onclick="test()">Click Here</button>
 
-    <div id="cloud"></div>
+    <div id="cloud" style="height : 500px; width : 500px;"></div>
 
-    <div data-bind="text: myCloud"></div>
-
-    <script>
-        function test() {
-            $('#cloud').jQCloud(words);
-        };
-    </script>
+    <div data-bind="text: myCloud">Something</div>
 
 </body>
 </html>
