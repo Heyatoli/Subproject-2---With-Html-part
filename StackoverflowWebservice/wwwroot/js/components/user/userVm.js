@@ -2,22 +2,13 @@
 
     return function (params) {
 
-        var title = ko.observable("noget andet!");
+        var title = ko.observable("Titel på noget andet!");
 
-        var tag = ko.observable("");
-
-        var displayingTagPosts = false;
-
-        var specificPostTitle = ko.observable("");
-        var specificPostBody = ko.observable("");
-
+        var username = ko.observable("");
+        
         var links = ko.observableArray([]);    // Initially an empty array
 
         var bodyTextDiv = ko.observable(false);
-
-        var showComments = ko.observable(false);
-        var currentPostComments = ko.observableArray([]);
-        var currentPostLink = ko.observable("");
 
         var next = ko.observable();
         var prev = ko.observable();
@@ -43,143 +34,93 @@
             getLinks(prev);
         }
 
-        var getPostWithTag = function () {
-            console.log(tag());
+        var getUsername = function () {
+            console.log(username());
 
-            var myUrl = "http://localhost:5001/api/posts/tag/" + tag();
+            var myUrl = "http://localhost:5001/api/users/" + username();
             links.removeAll();
 
-            $.ajax({
-                url: myUrl,
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    console.log(data);
-
-                    for (i = 0; i < data.data.length; i++) {
-                        links.push(data.data[i]);
-                    }
-                    console.log(data);
-                    next = data.next;
-                    prev = data.prev;
-                    displayNextPrev(data.next, data.prev);
-
-                }
-            });
-
-        }
-
-        var getPost = function (myUrl) {
-
-            //Calling function from Webservice
-
             var cb = function (data) {
-                console.log(data);
-                specificPostTitle(data[0].title);
-                specificPostBody(data[0].body);
-                currentPostLink(data[0].link);
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
             };
 
-            webservice.getPost(myUrl, cb);
-
-
-
-            showComments(false);
-
-        }
-
-        var getComments = function () {
-            currentPostComments.removeAll();
-            $.ajax({
-                url: currentPostLink(),
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    for (i = 0; i < data.comments.length; i++) {
-                        currentPostComments.push(data.comments[i]);
-                    }
-                    showComments(true);
-                    console.log(currentPostComments());
-                }
-            });
+            webservice.getPostQ(myUrl, cb);
         }
 
         var getLinks = function (url) {
 
             links.removeAll();
 
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                console.log(data);
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
+
             var myUrl = url;
 
             if (url == null) {
-                myUrl = "http://localhost:5001/api/posts";
+                myUrl = "http://localhost:5001/api/users";
             }
 
-            $.ajax({
-                url: myUrl,
-                type: "GET",
-                crossDomain: true,
-                dataType: 'json',
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    console.log(data.data[0].link);
-                    for (i = 0; i < data.data.length; i++) {
-                        links.push(data.data[i]);
-                    }
-                    console.log(data);
-                    next = data.next;
-                    prev = data.prev;
-                    displayNextPrev(data.next, data.prev);
-                }
-            });
+            webservice.getPostQ(myUrl, cb);
+
+
         };
 
         var displayNextPrev = function (next, prev) {
-
             if (next != null) {
                 showNext(true);
             }
             else {
                 showNext(false);
             }
-
             if (prev != null) {
                 showPrev(true);
             }
             else {
                 showPrev(false);
             }
-
         }
 
         return {
             links,
-            getPostWithTag,
-            tag,
-            specificPostTitle,
+            getUsername,
+            //postTitle,
+            //tag,
+            //specificPostTitle,
             bodyTextDiv,
-            getComments,
-            specificPostBody,
-            showComments,
-            currentPostComments,
+            //getComments,
+            //getAnswers,
+            //specificPostBody,
+            //showComments,
+            //showAnswers,
+            //currentPostAnswers,
+            //currentPostComments,
             showBody,
-            getPost,
+            //getPostQ,
             getNext,
             getPrev,
+            //getNextAnswers,
+            //getPrevAnswers,
+            //getNextComments,
+            //getPrevComments,
             title,
-            next,
-            prev,
             showNext,
             showPrev,
+            //showNextAnswers,
+            //showPrevAnswers,
+            //showNextComments,
+            //showPrevComments,
             getLinks,
             displayNextPrev
 
