@@ -129,7 +129,7 @@ namespace WebService.Controllers
         }
 
         [HttpGet("comments/{postId}", Name = nameof(GetCommentsByPost))]
-        public IActionResult GetCommentsByPost(int postId, int page = 0, int pageSize = 2)
+        public IActionResult GetCommentsByPost(int postId, int page = 0, int pageSize = standardPageSize)
         {
 
             var totalComments = _dataService.amountComments(postId);
@@ -207,6 +207,18 @@ namespace WebService.Controllers
                 Data = posts
             };
             return Ok(result);
+        }
+
+        [HttpGet("words/{search}", Name = nameof(GetWordsForWordCloud))]
+        public IActionResult GetWordsForWordCloud(string search)
+        {
+            var words = _dataService.wordCloud(search);
+
+            if (words == null) return NotFound();
+            else
+            {
+                return Ok(words);
+            }
         }
 
         private static int GetTotalPages(int pageSize, int total)

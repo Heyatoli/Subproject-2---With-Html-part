@@ -37,6 +37,39 @@ namespace Subproject_2
             }
         }
 
+        public List<Word> wordCloud(string search)
+        {
+
+            List<Word> words = new List<Word>();
+            using (var db = new stackOverflowContext())
+            {
+                var conn = (MySqlConnection)db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+
+                cmd.Parameters["@1"].Value = search;
+
+                cmd.CommandText = "call subpj3_b6(@1)";
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Word word = new Word
+                    {
+                        Name = reader.GetString(0),
+                        weight = reader.GetDouble(1)
+                    };
+                    words.Add(word);
+                }
+            }
+            
+            return words;
+        }
+
         public Post getCommments(int postid, int page, int pageSize)
         {
             using (var db = new stackOverflowContext())
@@ -280,7 +313,6 @@ namespace Subproject_2
             }
         }
     
-
         public List<Post> getPostA(int id, int page, int pageSize)
         {
             using (var db = new stackOverflowContext())

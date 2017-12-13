@@ -21,11 +21,17 @@ require(['knockout'], function (ko) {
         viewModel: { require: "components/user/userVm" },
         template: { require: "text!components/user/user.html" }
     });
+
+    ko.components.register("word", {
+        viewModel: { require: "components/words/wordVm" },
+        template: { require: "text!components/words/word.html" }
+    });
+
 });
 
 require(['knockout', 'postman'], function(ko, postman) {
     var vm = (function() {
-        var currentView = ko.observable('post');
+        var currentView = ko.observable('word');
         var currentParams = ko.observable("!!!");
         var switchComponent = function () {
             if (currentView() === "post") {

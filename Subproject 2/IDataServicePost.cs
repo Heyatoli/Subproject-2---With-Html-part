@@ -20,6 +20,8 @@ namespace Subproject_2
 
         Post getCommments(int postid, int page, int pageSize);
 
+        List<Word> wordCloud(string search);
+
         int amountPostQ();
 
         int amountPostA(int id);
