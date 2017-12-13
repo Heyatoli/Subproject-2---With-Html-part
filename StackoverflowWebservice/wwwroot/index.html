@@ -2,19 +2,49 @@
 <html>
 <head>
     <title>index</title>
+
+
+
 </head>
 <body>
-
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
 
+    <script src="lib/jqcloud2/dist/jqcloud.min.js"></script>
+
+    <link rel="stylesheet" href="lib/jqcloud2/dist/jqcloud.min.css">
+
     <button data-bind="click: switchComponent">Switch</button>
+    <div data-bind="component: {name: currentView, params: currentParams}"></div>
 
-<div data-bind="component: {name: currentView, params: currentParams}"></div>
+    <div id="example" style="width: 550px; height: 350px;"></div>
+
+    <script data-main="js/main" src="lib/requirejs/require.js"></script>
 
 
+    <script type="text/javascript">
 
-<script data-main="js/main" src="lib/requirejs/require.js"></script>
+        function test(data) {
+
+            //console.log(data);
+
+            var myWords = [];
+
+            for (i = 0; i < data.length; i++) {
+                myWords[i] = { text: data[i].name, weight: data[i].weight };
+            }
+
+            console.log(myWords);
+
+            $(function () {
+                $("#cloud").jQCloud(myWords);
+                $("#cloud").jQCloud('update', myWords);
+            });
+
+        }
+
+    </script>
+
 </body>
 </html>
