@@ -1,4 +1,4 @@
-﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
+﻿define(['knockout', 'postman', 'webservice', 'jquery', 'jqcloud2'], function (ko, postman, webservice, $, jq) {
 
     return function (params) {
 
@@ -16,8 +16,8 @@
                 for (i = 0; i < data.length; i++) {
                     words.push(data[i]);
                 }
-
-                $('#cloud').jQCloud(words);
+                console.log(words());
+                myCloud = $('#cloud').jQCloud(words);
             };
 
             webservice.getPostQ(myUrl, cb);
