@@ -8,7 +8,7 @@
         text: '../lib/text/text',
         postman: 'services/postman',
         webservice: 'services/WebserviceCalls',
-        jqcloud2: '../lib/jqcloud2/dist/jqcloud.min'
+        //jqcloud2: '../lib/jqcloud2/dist/jqcloud.min.js'
     }
 });
 
