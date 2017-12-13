@@ -7,7 +7,8 @@
         knockout: '../lib/knockout/dist/knockout',
         text: '../lib/text/text',
         postman: 'services/postman',
-        webservice: 'services/WebserviceCalls'
+        webservice: 'services/WebserviceCalls',
+        //jqcloud2: '../lib/jqcloud2/dist/jqcloud.min.js'
     }
 });
 

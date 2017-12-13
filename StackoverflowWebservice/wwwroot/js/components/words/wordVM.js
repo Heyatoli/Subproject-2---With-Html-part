@@ -16,7 +16,8 @@
                 for (i = 0; i < data.length; i++) {
                     words.push(data[i]);
                 }
-                myCloud = jQCloud(words);
+
+                $('#cloud').jQCloud(words);
             };
 
             webservice.getPostQ(myUrl, cb);
