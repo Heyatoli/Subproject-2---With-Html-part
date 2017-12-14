@@ -1,6 +1,5 @@
 ﻿define([], function () {
     var getPostQ = function (myUrl, callback) {
-        console.log("!!!");
         $.ajax({
             url: myUrl,
             type: "GET",

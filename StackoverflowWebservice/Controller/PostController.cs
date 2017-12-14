@@ -15,6 +15,7 @@ namespace WebService.Controllers
     public class PostController : Controller
     {
         private const int standardPageSize = 15;
+        private const int startAmount = 10;
         private IDataServicePost _dataService;
 
         public PostController(IDataServicePost dataService)
@@ -210,15 +211,46 @@ namespace WebService.Controllers
         }
 
         [HttpGet("words/{search}", Name = nameof(GetWordsForWordCloud))]
-        public IActionResult GetWordsForWordCloud(string search)
+        public IActionResult GetWordsForWordCloud(string search, int amount = startAmount)
         {
-            var words = _dataService.wordCloud(search);
+            var words = _dataService.wordCloud(search).Take(amount);
 
             if (words == null) return NotFound();
             else
             {
                 return Ok(words);
             }
+        }
+
+        [HttpGet("weights/{search}", Name = nameof(GetWeightedPostList))]
+        public IActionResult GetWeightedPostList(string search, int page = 0, int pageSize = standardPageSize)
+        {
+            var totalPosts = _dataService.amountWeightPosts(search);
+            var totalPages = GetTotalPages(pageSize, totalPosts);
+            if (page > totalPages - 1)
+            {
+                page = 0;
+            }
+            var posts = _dataService.getWeightedPosts(search, page, pageSize)
+               .Select(x => new
+                {
+                    Link = Url.Link(nameof(GetSpecificPost), new { id = x.postId }),
+                    title = x.title,
+                    weight = x.weight
+                });
+
+            if (posts == null) return NotFound();
+            var result = new
+            {
+                Total = totalPosts,
+                Pages = totalPages,
+                Page = page,
+                Prev = Link(nameof(GetWeightedPostList), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetWeightedPostList), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetWeightedPostList), page, pageSize),
+                Data = posts
+            };
+            return Ok(result);
         }
 
         private static int GetTotalPages(int pageSize, int total)

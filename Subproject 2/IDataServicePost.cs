@@ -8,6 +8,8 @@ namespace Subproject_2
     {
         List<Post> getPostQ(int page, int pageSize);
 
+        int amountWeightPosts(string search);
+
         List<Post> getPostA(int id, int page, int pageSize);
 
         List<Post> getPostById(int id);
@@ -21,6 +23,8 @@ namespace Subproject_2
         Post getCommments(int postid, int page, int pageSize);
 
         List<Word> wordCloud(string search);
+
+        List<WeightedPost> getWeightedPosts(string search, int page, int pageSize);
 
         int amountPostQ();
 

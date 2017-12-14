@@ -286,6 +286,37 @@ namespace Subproject_2
             }
         }
 
+        public int amountWeightPosts(string search)
+        {
+            List<WeightedPost> posts = new List<WeightedPost>();
+            using (var db = new stackOverflowContext())
+            {
+                var conn = (MySqlConnection)db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+
+                cmd.Parameters["@1"].Value = search;
+
+                cmd.CommandText = "call subpj3_b4(@1)";
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    WeightedPost post = new WeightedPost
+                    {
+                        postId = reader.GetInt32(0),
+                    };
+                    posts.Add(post);
+                }
+            }
+
+            return posts.Count();
+        }
+
         public List<Post> getPostQ(int page, int pageSize)
         {
             using (var db = new stackOverflowContext())
@@ -319,7 +350,7 @@ namespace Subproject_2
             {
                 var query =
                     (from u in db.Posts
-                     where u.type == 2 && u.parent_id == id//Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
+                     where u.type == 2 && u.parent_id == id
                      select new Post
                      {
                          id = u.id,
@@ -368,6 +399,50 @@ namespace Subproject_2
                      }).ToList();
                 return q.Count();
             }
+        }
+
+        public List<WeightedPost> getWeightedPosts(string search, int page, int pageSize)
+        {
+            List<WeightedPost> posts = new List<WeightedPost>();
+            using (var db = new stackOverflowContext())
+            {
+                var conn = (MySqlConnection)db.Database.GetDbConnection();
+                conn.Open();
+                var cmd = new MySqlCommand();
+                cmd.Connection = conn;
+
+                cmd.Parameters.Add("@1", DbType.String);
+
+                cmd.Parameters["@1"].Value = search;
+
+                cmd.CommandText = "call subpj3_b4(@1)";
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    WeightedPost post = new WeightedPost
+                    {
+                        postId = reader.GetInt32(0),
+                        title = reader.GetString(1),
+                        weight = reader.GetDouble(3)
+                    };
+                    posts.Add(post);
+                }
+            }
+
+            List<WeightedPost> trimmedPostList = new List<WeightedPost>();
+
+            for (int i = page*pageSize; i < (page * pageSize) + pageSize; i++)
+            {
+                if(i == posts.Count())
+                {
+                    break;
+                }
+                trimmedPostList.Add(posts[i]);
+            }
+
+            return trimmedPostList;
         }
     }
 }
