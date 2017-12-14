@@ -11,7 +11,7 @@
 
     Search for words <input data-bind="value: search" />
     <button data-bind="click: getSearch">Click me</button>
-    <button data-bind="click: getWeightedSearch">Weights</button>
+    <button data-bind="click: getWeightedSearch.bind($parent, null)">Weights</button>
 
     <div data-bind="visible: showWordCloud">
         <h2>Word Cloud</h2>
@@ -31,8 +31,7 @@
             </tbody>
         </table>
 
-        <div data-bind="visible: showNext"><button data-bind="click: getNext">next</button></div>
-        <div data-bind="visible: showPrev"><button data-bind="click: getPrev">prev</button></div>
+       <button data-bind="visible: showPrev, click: getPrev">prev</button><button data-bind="visible: showNext, click: getNext">next</button>
 
         <div data-bind="visible: showPost">
             <h2>Question</h2>

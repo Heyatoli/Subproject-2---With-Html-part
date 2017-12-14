@@ -19,11 +19,11 @@
         var showPrev = ko.observable(false);
 
         var getNext = function () {
-            getLinks(next);
+            getWeightedSearch(next);
         }
 
         var getPrev = function () {
-            getLinks(prev);
+            getWeightedSearch(prev);
         }
 
         var getPost = function (url) {
@@ -55,10 +55,13 @@
             webservice.getPostQ(myUrl, cb);
         }
 
-        var getWeightedSearch = function () {
+        var getWeightedSearch = function (url) {
 
+            var myUrl = url;
             showWordCloud(false);
-            var myUrl = "http://localhost:5001/api/posts/weights/" + search();
+            if (url == null) {
+                myUrl = "http://localhost:5001/api/posts/weights/" + search();
+            }
 
             var cb = function (data) {
                 weightedWords.removeAll();
@@ -66,12 +69,27 @@
                 for (i = 0; i < data.data.length; i++) {
                     weightedWords.push(data.data[i]);
                 }
-                console.log(data);
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
             };
             webservice.getPostQ(myUrl, cb);
         }
 
-
+        var displayNextPrev = function (next, prev) {
+            if (next != null) {
+                showNext(true);
+            }
+            else {
+                showNext(false);
+            }
+            if (prev != null) {
+                showPrev(true);
+            }
+            else {
+                showPrev(false);
+            }
+        }
 
         return {
             words,
