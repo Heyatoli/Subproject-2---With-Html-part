@@ -12,7 +12,9 @@ namespace Subproject_2
         List<User> getUser(int page, int pageSize);
 
         int userNameAmount(string name);
-        
+
+        List<User> getUserById(int id);
+
         List<User> getUsername(string name, int page, int pageSize);
 
         int historyAmount(int id);
@@ -20,6 +22,7 @@ namespace Subproject_2
         List<History> getHistory(int id, int page, int pageSize);
 
         int markingAmount(int id);
+
         List<Marking> getFavourites(int id, int page, int pageSize);
         
         History createHistory(int userid, string search);
