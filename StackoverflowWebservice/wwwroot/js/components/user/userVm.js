@@ -5,6 +5,13 @@
         var title = ko.observable("Titel på noget andet!");
 
         var username = ko.observable("");
+
+        var specificUserName = ko.observable("");
+        var specificUserAge = ko.observable("");
+        var specificUserLocation = ko.observable("");
+        var specificUserCreation = ko.observable("");
+
+        var currentUser = ko.observable("");
         
         var links = ko.observableArray([]);    // Initially an empty array
 
@@ -41,6 +48,8 @@
             links.removeAll();
 
             var cb = function (data) {
+
+               
                 for (i = 0; i < data.data.length; i++) {
                     links.push(data.data[i]);
                 }
@@ -50,6 +59,23 @@
             };
 
             webservice.getPostQ(myUrl, cb);
+        }
+
+        var getUserId = function (myUrl) {
+
+            //Calling function from Webservice
+            console.log(myUrl);
+            var cb = function (data) {
+                specificUserName(data[0].name);
+                specificUserAge(data[0].age);
+                specificUserLocation(data[0].location);
+                specificUserCreation(data[0].creationDate);
+                console.log(data[0]);
+                currentUser(data[0]);
+            };
+
+            webservice.getPostQ(myUrl, cb);
+
         }
 
         var getLinks = function (url) {
@@ -69,12 +95,10 @@
             var myUrl = url;
 
             if (url == null) {
-                myUrl = "http://localhost:5001/api/users";
+                myUrl = "http://localhost:5001/api/users/";
             }
 
             webservice.getPostQ(myUrl, cb);
-
-
         };
 
         var displayNextPrev = function (next, prev) {
@@ -94,33 +118,19 @@
 
         return {
             links,
-            getUsername,
-            //postTitle,
-            //tag,
-            //specificPostTitle,
+            username,
+            getUserId,
+            specificUserName,
+            specificUserAge,
+            specificUserLocation,
+            specificUserCreation,
             bodyTextDiv,
-            //getComments,
-            //getAnswers,
-            //specificPostBody,
-            //showComments,
-            //showAnswers,
-            //currentPostAnswers,
-            //currentPostComments,
             showBody,
-            //getPostQ,
             getNext,
             getPrev,
-            //getNextAnswers,
-            //getPrevAnswers,
-            //getNextComments,
-            //getPrevComments,
             title,
             showNext,
             showPrev,
-            //showNextAnswers,
-            //showPrevAnswers,
-            //showNextComments,
-            //showPrevComments,
             getLinks,
             displayNextPrev
 

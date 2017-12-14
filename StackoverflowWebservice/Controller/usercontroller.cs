@@ -33,7 +33,16 @@ namespace StackoverflowWebservice.Controllers
             {
                 page = 0;
             }
-            var users = _dataService.getUser(page, pageSize);
+            var users = _dataService.getUser(page, pageSize)
+                .Select(x => new
+                {
+                    Link = Url.Link("GetSpecificUser", new { id = x.id }),
+                    Body = x.age,
+                    x.name,
+                    x.location,
+                    x.creationDate
+                });
+
             if (users == null) return NotFound();
             var result = new
             {
@@ -46,6 +55,21 @@ namespace StackoverflowWebservice.Controllers
                 Data = users
             };
             return Ok(result);
+        }
+
+        [HttpGet("{id}", Name = nameof(GetSpecificUser))]
+        public IActionResult GetSpecificUser(int id)
+        {
+            var users = _dataService.getUserById(id)
+                .Select(x => new
+                {
+                    x.name,
+                    x.age,
+                    x.location,
+                    x.creationDate
+                });
+
+            return Ok(users);
         }
 
         [HttpGet("{name}", Name = nameof(GetUsersByName))]
@@ -164,6 +188,7 @@ namespace StackoverflowWebservice.Controllers
             };
             return Created(url, result);
         }
+
         [HttpPut("markings")]
         public IActionResult PutMarkings([FromBody] Marking value)
         {

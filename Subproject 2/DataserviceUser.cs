@@ -11,7 +11,7 @@ namespace Subproject_2
     public class DataserviceUser : IDataServiceUser
     {
 
-         public History createHistory(int id, string search)
+        public History createHistory(int id, string search)
         {
 
             using (var db = new stackOverflowContext())
@@ -113,13 +113,13 @@ namespace Subproject_2
                     where m.userID == userid
                     select new Marking
                     {
-                     postId = m.postId
+                        postId = m.postId
                     }).ToList();
 
                 return query.Count();
             }
         }
-        
+
         public List<Marking> getFavourites(int id, int page, int pageSize)
         {
             using (var db = new stackOverflowContext())
@@ -179,19 +179,19 @@ namespace Subproject_2
         }
 
         public int userAmount()
+        {
+            using (var db = new stackOverflowContext())
             {
-                using (var db = new stackOverflowContext())
-                {
-                    var query = (
-                        from u in db.User
-                        select new User
-                        {
-                            id = u.id
-                        }).ToList();
+                var query = (
+                    from u in db.User
+                    select new User
+                    {
+                        id = u.id
+                    }).ToList();
 
-                    return query.Count();
-                }
+                return query.Count();
             }
+        }
 
         public List<User> getUser(int page, int pageSize)
         {
@@ -201,12 +201,13 @@ namespace Subproject_2
                     (from u in db.User
                      select new User
                      {
-                        age = u.age,
-                        creationDate = u.creationDate,
-                        location = u.location,
-                        name = u.name
+                         age = u.age,
+                         creationDate = u.creationDate,
+                         location = u.location,
+                         name = u.name,
+                         id = u.id
                      }).OrderBy(u => u.id)
-                     .Skip(page*pageSize)
+                     .Skip(page * pageSize)
                      .Take(pageSize)
                      .ToList();
 
@@ -248,7 +249,7 @@ namespace Subproject_2
                      .Skip(page * pageSize)
                      .Take(pageSize)
                      .ToList();
-                return users;      
+                return users;
             }
         }
 
@@ -281,5 +282,24 @@ namespace Subproject_2
             }
         }
 
+        public List<User> getUserById(int id)
+        {
+            using (var db = new stackOverflowContext())
+            {
+                var query =
+                    (from u in db.User
+                     where u.id.Equals(id)  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
+                     select new User
+                     {
+                         id = u.id,
+                         name = u.name,
+                         location = u.location,
+                         age = u.age,
+                         creationDate = u.creationDate,
+                     })
+                     .ToList();
+                return query;
+            }
+        }
     }
 }

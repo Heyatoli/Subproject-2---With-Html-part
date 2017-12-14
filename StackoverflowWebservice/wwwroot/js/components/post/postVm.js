@@ -117,7 +117,6 @@
         var getPostQ = function (myUrl) {
 
                //Calling function from Webservice
-
             var cb = function (data) {
                 specificPostTitle(data[0].title);
                 specificPostBody(data[0].body);

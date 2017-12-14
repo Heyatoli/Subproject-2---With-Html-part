@@ -14,7 +14,7 @@
         <tbody data-bind="foreach: links">
             <tr>
                 <td data-bind="text: $data.name"></td>
-                <td><button data-bind="click: $parent.getUsername.bind($parent, $data.link)">link</button></td>
+                <td><button data-bind="click: $parent.getUserId.bind($parent, $data.link)">link</button></td>
             </tr>
         </tbody>
     </table>
@@ -22,39 +22,12 @@
     <div data-bind="visible: showNext"><button data-bind="click: getNext">next</button></div>
     <div data-bind="visible: showPrev"><button data-bind="click: getPrev">prev</button></div>
 
-    <!--<h2>Question</h2>
+    <h2>User</h2>
 
-    <div data-bind="text: specificPostTitle" id="data">adsaa</div>
-    <p></p>
-    <button data-bind="click: getComments(null)">Question comments</button><button data-bind="click: getAnswers(null)">Answers</button>
-
-    <div data-bind="visible: showAnswers">
-        <h2>Answers</h2>
-        <table>
-            <tbody data-bind="foreach: currentPostAnswers">
-                <tr>
-                    <td data-bind="text: $data.body"></td>
-                    <td><button data-bind="click: $parent.getComments.bind($parent, $data.commentsLink)">Comments</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <button data-bind="click: getPrevAnswers, visible: showPrevAnswers">prev</button>
-        <button data-bind="click: getNextAnswers, visible: showNextAnswers">next</button>
-    </div>
-
-    <div data-bind="visible: showComments">
-        <h2>Comments</h2>
-        <table>
-            <tbody data-bind="foreach: currentPostComments">
-                <tr>
-                    <td data-bind="text: $data.text"></td>
-                    <td data-bind="text: 'Score ' + $data.score"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button data-bind="click: getPrevComments, visible: showPrevComments">prev</button>
-        <button data-bind="click: getNextComments, visible: showNextComments">next</button>
-    </div>-->
+    <div data-bind="text: specificUserName" id="data">adsaa</div>
+    <div data-bind="text: specificUserAge" id="data">adsaa</div>
+    <div data-bind="text: specificUserLocation" id="data">adsaa</div>
+    <div data-bind="text: specificUserCreation" id="data">adsaa</div>
 
 </body>
 </html>
