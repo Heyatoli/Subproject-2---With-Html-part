@@ -2,8 +2,6 @@
 
     return function (params) {
 
-        var title = ko.observable("Titel!");
-
         var tag = ko.observable("");
         var postTitle = ko.observable("");
 
@@ -14,10 +12,12 @@
 
         var bodyTextDiv = ko.observable(false);
 
+        var showQuestion = ko.observable(false);
+
         var showComments = ko.observable(false);
         var currentPostComments = ko.observableArray([]);
 
-        var showAnswers = ko.observable(true);
+        var showAnswers = ko.observable(false);
         var currentPostAnswers = ko.observableArray([]);
 
         var currentPost = ko.observable("");
@@ -125,6 +125,13 @@
 
             webservice.getPostQ(myUrl, cb);
 
+            if (showQuestion === true) {
+                showQuestion(false);
+            }
+            else {
+                showQuestion(true);
+            }
+
             showComments(false);
             
         }
@@ -133,10 +140,11 @@
 
             var myUrl = currentPost().commentsLink;
 
-            console.log(url);
-
             if (url !== null) {
                 myUrl = url;
+            }
+            else {
+                showAnswers(false);
             }
             
             currentPostComments.removeAll();
@@ -171,20 +179,18 @@
             }
 
             showComments(false);
+            if (showAnswers() === true) {
+                showAnswers(false);
+            }
+            else {
+                showAnswers(true);
+            }
 
             var cb = function (data) {
-
-                if (showAnswers() === true) {
-                    showAnswers(false);
-                }
-                else {
-                    showAnswers(true);
-                }
 
                 for (i = 0; i < data.data.length; i++) {
                     currentPostAnswers.push(data.data[i]);
                 }
-                console.log(data.next + " Test ");
                 nextAnswers = data.next;
                 prevAnswers = data.prev;
                 displayNextPrevAnswers(data.next, data.prev);
@@ -266,6 +272,7 @@
 
         return {
             links,
+            showQuestion,
             getPostWithTag,
             getPostWithTitle,
             postTitle,
@@ -287,7 +294,6 @@
             getPrevAnswers,
             getNextComments,
             getPrevComments,
-            title,
             showNext,
             showPrev,
             showNextAnswers,

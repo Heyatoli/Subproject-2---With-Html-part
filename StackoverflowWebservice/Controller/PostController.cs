@@ -37,6 +37,8 @@ namespace WebService.Controllers
             {
                 Link = Url.Link(nameof(GetSpecificPost), new { id = x.id }),
                 Body = x.text,
+                Date = x.creationDate,
+                Score = x.score,
                 x.title
             });
             if (posts == null) return NotFound();
