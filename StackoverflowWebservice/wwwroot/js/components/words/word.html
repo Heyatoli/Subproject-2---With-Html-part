@@ -4,6 +4,16 @@
     <meta charset="utf-8" />
     <title></title>
 
+    <style>
+
+        .center-div {
+            padding: 3px;
+            margin: auto;
+            width: 50%;
+        }
+
+    </style>
+
 </head>
 <body>
 
@@ -14,6 +24,7 @@
     </div>
 
     <div class="col-auto">
+        <p>Please write the search as a combinations of words seperated by commas (e.g "data,css")</p>
         <form class="form-inline my-2 my-lg-0">
             <input data-bind="value: search" class="form-control mr-sm-2" type="search" placeholder="Insert words">
             <button button data-bind="click: getSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Word Cloud</button>
@@ -21,13 +32,12 @@
         </form>
     </div>
 
-    <div data-bind="visible: showWordCloud">
-        <h2>Word Cloud</h2>
-        <div id="cloud" style="height : 300px; width : 300px;"></div>
+    <div data-bind="visible: showWordCloud" class="center-div">
+            <h2>Word Cloud</h2>
+            <div id="cloud" style="height : 300px; width : 300px;"></div>
     </div>
 
-    <div class="card card-body">
-        <div data-bind="visible: showWeightedList">
+        <div class="card card-body" data-bind="visible: showWeightedList">
             <h2>Posts with weights</h2>
 
             <table class="table table-hover">
@@ -44,7 +54,7 @@
                     <tr>
                         <td data-bind="text: $data.title"></td>
                         <td data-bind="text: $data.weight"></td>
-                        <td><button data-bind="click: $parent.getPost.bind($parent, $data.link)">link</button></td>
+                        <td><button data-bind="click: $parent.getPost.bind($parent, $data.link)">Show post</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -60,13 +70,13 @@
                     </li>
                 </ul>
             </nav>
-            </div>
         </div>
 
         <div data-bind="visible: showPost">
             <h2>Question</h2>
-
-            <div data-bind="text: post"></div>
+            <div class="card card-body">
+                <div data-bind="text: post"></div>
+            </div>
         </div>
 
 

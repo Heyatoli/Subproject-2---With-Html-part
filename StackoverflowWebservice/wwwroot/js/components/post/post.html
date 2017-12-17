@@ -25,6 +25,7 @@
         </div>
         <p></p>
         <div class="col-4 mr-auto">
+            <p></p>
             <h5><strong>All posts</strong></h5>
         </div>
     </div>
@@ -49,7 +50,7 @@
                     <td></td>
                     <td data-bind="text: $data.date"></td>
                     <td data-bind="text: $data.score"></td>
-                    <td><button data-bind="click: $parent.getPostQ.bind($parent, $data.link)">link</button></td>
+                    <td><button data-bind="click: $parent.getPostQ.bind($parent, $data.link)">Show Post</button></td>
                 </tr>
             </tbody>
         </table>
@@ -93,6 +94,16 @@
     <div data-bind="visible: showAnswers">
         <div class="card card-body">
             <h2>Answers</h2>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Answer</th>
+                        <th scope="col">Link</th>
+                    </tr>
+                </thead>
+            </table>
+
             <table class="table table-hover">
                 <tbody data-bind="foreach: currentPostAnswers">
                     <tr>
@@ -118,27 +129,40 @@
     </div>
 
     <div data-bind="visible: showComments">
-        <h2>Comments</h2>
-        <table>
-            <tbody data-bind="foreach: currentPostComments">
-                <tr>
-                    <td data-bind="text: $data.text"></td>
-                    <td data-bind="text: 'Score ' + $data.score"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="card card-body">
+            <h2>Comments</h2>
 
-        <nav>
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a data-bind="click: getPrevComments, visible: showPrevComments" class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Comment</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+            </table>
 
-                <li class="page-item">
-                    <a data-bind="click: getNextComments, visible: showNextComments" class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+            <table>
+                <tbody data-bind="foreach: currentPostComments">
+                    <tr>
+                        <td data-bind="text: $data.text"></td>
+                        <td></td>
+                        <td data-bind="text: $data.score"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a data-bind="click: getPrevComments, visible: showPrevComments" class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a data-bind="click: getNextComments, visible: showNextComments" class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
 </body>

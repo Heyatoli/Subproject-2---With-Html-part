@@ -8,7 +8,7 @@
         var specificPostTitle = ko.observable("");
         var specificPostBody = ko.observable("");
 
-        var links = ko.observableArray([]);    // Initially an empty array
+        var links = ko.observableArray([]);   
 
         var bodyTextDiv = ko.observable(false);
 
@@ -40,16 +40,6 @@
         var showNextComments = ko.observable(false);
         var showPrevComments = ko.observable(false);
 
-        var showBody = function () {
-            console.log(bodyTextDiv())
-            if (bodyTextDiv() == false) {
-                bodyTextDiv(true);
-            }
-            else {
-                bodyTextDiv(false);
-            }
-        }
-
         var getNext = function () {
             getLinks(next);
         }
@@ -79,7 +69,6 @@
         }
 
         var getPostWithTag = function () {
-            console.log(tag());
 
             var myUrl = "http://localhost:5001/api/posts/tag/" + tag();
             links.removeAll();
@@ -97,7 +86,6 @@
         }
 
         var getPostWithTitle = function () {
-            console.log(postTitle());
 
             var myUrl = "http://localhost:5001/api/posts/title/" + postTitle();
             links.removeAll();
@@ -119,7 +107,6 @@
             var cb = function (data) {
                 specificPostTitle(data[0].title);
                 specificPostBody(data[0].body);
-                console.log(data[0]);
                 currentPost(data[0]);
             };
 
@@ -133,6 +120,7 @@
             }
 
             showComments(false);
+
             
         }
 
@@ -149,15 +137,9 @@
             
             currentPostComments.removeAll();
 
-            if (showComments() === true) {
-                showComments(false);
-            }
-            else {
-                showComments(true);
-            }
+            showComments(true);
 
             var cb = function (data) {
-                console.log(data);
                 for (i = 0; i < data.data.comments.length; i++) {
                     currentPostComments.push(data.data.comments[i]);
                 }
@@ -194,7 +176,6 @@
                 nextAnswers = data.next;
                 prevAnswers = data.prev;
                 displayNextPrevAnswers(data.next, data.prev);
-                console.log(currentPostAnswers());
             };
 
             webservice.getPostQ(myUrl, cb);
@@ -208,7 +189,6 @@
                 for (i = 0; i < data.data.length; i++) {
                     links.push(data.data[i]);
                 }
-                console.log(data);
                 next = data.next;
                 prev = data.prev;
                 displayNextPrev(data.next, data.prev);
@@ -286,7 +266,6 @@
             showAnswers,
             currentPostAnswers,
             currentPostComments,
-            showBody,
             getPostQ,
             getNext,
             getPrev,
@@ -302,7 +281,6 @@
             showPrevComments,
             getLinks,
             displayNextPrev
-
         };
 
     }
