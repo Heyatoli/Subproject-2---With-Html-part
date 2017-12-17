@@ -32,14 +32,15 @@ require(['knockout'], function (ko) {
 
 require(['knockout', 'postman'], function(ko, postman) {
     var vm = (function() {
-        var currentView = ko.observable('user');
+        var currentView = ko.observable('post');
         var currentParams = ko.observable("!!!");
-        var switchComponent = function () {
-            if (currentView() === "post") {
-                currentView("user");
-            } else {
-                currentView("post");
-            }
+        var switchComponent = function (view) {
+            //if (currentView() === "post") {
+            //    currentView("user");
+            //} else {
+            //    currentView("post");
+            //}
+            currentView(view);
 
         }
 

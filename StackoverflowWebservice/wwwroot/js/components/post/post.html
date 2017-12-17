@@ -6,61 +6,107 @@
 </head>
 <body>
 
-    <h2 data-bind="text: title"></h2>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Posts!</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+        </div>
+    </div>
 
-    Search for a given tag <input data-bind='value: tag' /> <button data-bind="click: getPostWithTag">Search</button>
-    <p></p>
 
-    Search for a question title <input data-bind='value: postTitle' /> <button data-bind="click: getPostWithTitle">Search</button>
-    <p></p>
+    <div class="row">
+        <div class="col-4 mr-auto">
+            <h5><strong>All posts</strong></h5>
+        </div>
+        <div class="col-auto">
+            <form class="form-inline my-2 my-lg-0">
+                <input data-bind='value: tag' class="form-control mr-sm-2" type="search" placeholder="Insert words">
+                <button data-bind="click: getPostWithTag" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for a specific tag</button>
 
-   <button data-bind="click: getLinks()">First page</button>
+                <input data-bind='value: postTitle' class="form-control mr-sm-2" type="search" placeholder="Insert words">
+                <button data-bind="click: getPostWithTitle" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for a specific question</button>
+            </form>
+        </div>
+    </div>
+    <br>
 
-    <table>
-        <tbody data-bind="foreach: links">
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td data-bind="text: $data.title"></td>
-                <td><button data-bind="click: $parent.getPostQ.bind($parent, $data.link)">link</button></td>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Type</th>
             </tr>
-        </tbody>
+        </thead>
     </table>
 
-    <div data-bind="visible: showNext"><button data-bind="click: getNext">next</button></div> 
-    <div data-bind="visible: showPrev"><button data-bind="click: getPrev">prev</button></div> 
+            <table>
+                <tbody data-bind="foreach: links">
+                    <tr>
+                        <td data-bind="text: $data.title"></td>
+                        <td><button data-bind="click: $parent.getPostQ.bind($parent, $data.link)">link</button></td>-->
+                    </tr>
+                </tbody>
+            </table>
 
-    <h2>Question</h2>
 
-    <!--<div data-bind="text: specificPostTitle" id="data">adsaa</div>--> 
-    <p></p>
-    <div data-bind="text: specificPostBody" id="data"></div>
-    <button data-bind="click: getComments(null)">Question comments</button><button data-bind="click: getAnswers(null)">Answers</button>
+            <nav>
+                <ul class="pagination justify-content-center">
 
-    <div data-bind="visible: showAnswers">
-        <h2>Answers</h2>
-        <table>
-            <tbody data-bind="foreach: currentPostAnswers">
-                <tr>
-                    <td data-bind="text: $data.body"></td>
-                    <td><button data-bind="click: $parent.getComments.bind($parent, $data.commentsLink)">Comments</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <button data-bind="click: getPrevAnswers, visible: showPrevAnswers">prev</button>
-        <button data-bind="click: getNextAnswers, visible: showNextAnswers">next</button>
-    </div>
+                    <li class="page-item">
+                        <a data-bind="click: getLinks()" class="page-link" href="#" tabindex="-1">First Page</a>
+                    </li>
 
-    <div data-bind="visible: showComments">
-        <h2>Comments</h2>
-        <table>
-            <tbody data-bind="foreach: currentPostComments">
-                <tr>
-                    <td data-bind="text: $data.text"></td><td data-bind="text: 'Score ' + $data.score"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button data-bind="click: getPrevComments, visible: showPrevComments">prev</button>
-        <button data-bind="click: getNextComments, visible: showNextComments">next</button>
-    </div>
+                    <li class="page-item">
+                        <a data-bind="visible: showPrev, click: getPrev" class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                    <li class="page-item">
+                        <a data-bind="visible: showNext, click: getNext" class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <h2>Question</h2>
+
+            <div data-bind="text: specificPostTitle" id="data">adsaa</div>
+            <p></p>
+            <div data-bind="text: specificPostBody" id="data"></div>
+            <button data-bind="click: getComments(null)">Question comments</button><button data-bind="click: getAnswers(null)">Answers</button>
+
+            <div data-bind="visible: showAnswers">
+                <h2>Answers</h2>
+                <table>
+                    <tbody data-bind="foreach: currentPostAnswers">
+                        <tr>
+                            <td data-bind="text: $data.body"></td>
+                            <td><button data-bind="click: $parent.getComments.bind($parent, $data.commentsLink)">Comments</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button data-bind="click: getPrevAnswers, visible: showPrevAnswers">prev</button>
+                <button data-bind="click: getNextAnswers, visible: showNextAnswers">next</button>
+            </div>
+
+            <div data-bind="visible: showComments">
+                <h2>Comments</h2>
+                <table>
+                    <tbody data-bind="foreach: currentPostComments">
+                        <tr>
+                            <td data-bind="text: $data.text"></td>
+                            <td data-bind="text: 'Score ' + $data.score"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button data-bind="click: getPrevComments, visible: showPrevComments">prev</button>
+                <button data-bind="click: getNextComments, visible: showNextComments">next</button>
+            </div>
 
 </body>
 </html>

@@ -1,7 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>index</title>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Subproject 4</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <style>
+        table thead tr th:first-child, table thead tr th:nth-child(3), table thead tr th:nth-child(4), table tbody tr th, table tbody tr td:nth-child(3), table tbody tr td:nth-child(4) {
+            width: 10%;
+            white-space: nowrap;
+        }
+
+        table tbody tr td:nth-child(2) {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 1px;
+        }
+
+        .table {
+            margin-bottom: 0px;
+        }
+
+        .separator {
+            margin-bottom: 15px;
+        }
+    </style>
 
 
 
@@ -15,7 +45,41 @@
 
     <link rel="stylesheet" href="lib/jqcloud2/dist/jqcloud.min.css">
 
-    <button data-bind="click: switchComponent">Switch</button>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+
+            <!--<img src="logo.png" style="width:275px; padding:15px 0 15px 0;">-->
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
+
+                <ul class="navbar-nav my-2 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" data-bind="click: switchComponent('post')" data-toggle="collapse" data-parent="#mainAccordion" href="#posts" aria-expanded="true" aria-controls="posts">Posts</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-bind="click: switchComponent('user')" data-toggle="collapse" data-parent="#mainAccordion" href="#users" aria-expanded="false" aria-controls="users">Users</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-bind="click: switchComponent('word')" data-toggle="collapse" data-parent="#mainAccordion" href="#words" aria-expanded="false" aria-controls="users">word cloud</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+
     <div data-bind="component: {name: currentView, params: currentParams}"></div>
 
     <div id="example" style="width: 550px; height: 350px;"></div>
