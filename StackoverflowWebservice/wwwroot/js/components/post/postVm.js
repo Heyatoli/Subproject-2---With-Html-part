@@ -160,15 +160,15 @@
                 myUrl = url;
             }
 
-            showComments(false);
-            if (showAnswers() === true) {
-                showAnswers(false);
-            }
-            else {
-                showAnswers(true);
-            }
+            showAnswers(false);
 
+            showComments(false);
+            
             var cb = function (data) {
+
+                if (data !== null) {
+                    showAnswers(true);
+                }
 
                 for (i = 0; i < data.data.length; i++) {
                     currentPostAnswers.push(data.data[i]);

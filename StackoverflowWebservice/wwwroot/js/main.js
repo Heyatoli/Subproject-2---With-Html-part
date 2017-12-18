@@ -35,13 +35,7 @@ require(['knockout', 'postman'], function(ko, postman) {
         var currentView = ko.observable('post');
         var currentParams = ko.observable("!!!");
         var switchComponent = function (view) {
-            //if (currentView() === "post") {
-            //    currentView("user");
-            //} else {
-            //    currentView("post");
-            //}
             currentView(view);
-
         }
 
         postman.subscribe(postman.events.changeView,
