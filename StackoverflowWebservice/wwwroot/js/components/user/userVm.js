@@ -4,6 +4,8 @@
 
         var username = ko.observable("");
 
+        var note = ko.observable("");
+
         var specificUserName = ko.observable("");
         var specificUserAge = ko.observable("");
         var specificUserLocation = ko.observable("");
@@ -141,7 +143,6 @@
 
         }
 
-
         var getLinks = function (url) {
 
             links.removeAll();
@@ -161,6 +162,7 @@
             if (url == null) {
                 myUrl = "http://localhost:5001/api/users/";
             }
+            
 
             webservice.getPostQ(myUrl, cb);
         };
@@ -180,8 +182,51 @@
             }
         }
 
+        var deleteHistory = function (histId) {
+            var cb = function (data) {
+                alert("Deleted");
+            };
+            var myUrl = "http://localhost:5001/api/users/history/" + histId;
+            console.log(myUrl);
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var deleteMarking = function (postId) {
+            var cb = function (data) {
+                alert("Deleted");
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/" + currentUser().id + "/" + postId;
+            console.log(myUrl);
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var updateMarking = function (postId) {
+            var cb = function (data) {
+                alert("Updated");
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/";
+            var data = {
+                userID : currentUser().id,
+                postId : postId,
+                note : note()
+            };
+            webservice.updateFunction(myUrl, cb, data);
+        }
+
+        var createHistory = function (userId, search) {
+
+        }
+
+        var createMarking = function (userId, postId, note) {
+
+        }
+
         return {
             links,
+            note,
+            deleteMarking,
+            deleteHistory,
+            updateMarking,
             username,
             getUserId,
             getUserMarkings,

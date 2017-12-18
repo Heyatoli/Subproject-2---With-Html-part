@@ -55,6 +55,8 @@
     <div data-bind="text: specificUserLocation" id="data">adsaa</div>
     <div data-bind="text: specificUserCreation" id="data">adsaa</div>
     
+    
+
     <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1"> 
         <table class="table table-hover">
             <tbody data-bind="foreach: specificUserMarkings">
@@ -62,7 +64,8 @@
                     <td data-bind="text: $data.postId"></td>
                     <td></td>
                     <td data-bind="text: $data.note"></td>
-                    <!-- her delete funktion -->
+                    <td><button data-bind="click: $parent.deleteMarking.bind($parent, $data.postId)">Delete</button></td>
+                    <td><input data-bind='value: $parent.note' class="form-control mr-sm-2" type="search" placeholder="Update Note" /><button data-bind="click: $parent.updateMarking.bind($parent, $data.postId)">Update Note</button></td>
                 </tr>
             </tbody>
         </table>
@@ -75,7 +78,7 @@
                     <td data-bind="text: $data.id"></td>
                     <td></td>
                     <td data-bind="text: $data.searchWord"></td>
-                   
+                    <td><button data-bind="click: $parent.deleteHistory.bind($parent, $data.id)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
