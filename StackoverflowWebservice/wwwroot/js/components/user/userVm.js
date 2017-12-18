@@ -2,8 +2,6 @@
 
     return function (params) {
 
-        var title = ko.observable("Titel på noget andet!");
-
         var username = ko.observable("");
 
         var specificUserName = ko.observable("");
@@ -12,7 +10,15 @@
         var specificUserCreation = ko.observable("");
 
         var currentUser = ko.observable("");
-        
+
+        var specificUserMarkings = ko.observableArray([]);
+        var currentUserMarkings = ko.observableArray([]);
+
+        var specificUserHistory = ko.observableArray([]);
+        var currentUserHistory = ko.observableArray([]);
+
+        var postTitle = ko.observable("");
+
         var links = ko.observableArray([]);    // Initially an empty array
 
         var bodyTextDiv = ko.observable(false);
@@ -41,6 +47,23 @@
             getLinks(prev);
         }
 
+        var getUserByName = function () {
+
+            var myUrl = "http://localhost:5001/api/users/name/" + username();
+            links.removeAll();
+
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
+
+            webservice.getPostQ(myUrl, cb);
+        }
+
         var getUsername = function () {
             console.log(username());
 
@@ -49,7 +72,7 @@
 
             var cb = function (data) {
 
-               
+
                 for (i = 0; i < data.data.length; i++) {
                     links.push(data.data[i]);
                 }
@@ -77,6 +100,47 @@
             webservice.getPostQ(myUrl, cb);
 
         }
+
+        var getUserMarkings = function (url = null) {
+
+            var myUrl = currentUser().markingsLink;
+
+            currentUserMarkings.removeAll();
+
+            var cb = function (data) {
+                console.log(data);
+                for (i = 0; i < data.data.length; i++) {
+                    specificUserMarkings.push(data.data[i]);
+                    currentUserMarkings.push(data.data[i]);
+                }
+
+            };
+
+            webservice.getPostQ(myUrl, cb);
+
+        }
+
+        var getUserHistory = function (url = null) {
+
+            var myUrl = currentUser().historyLink;
+            console.log(currentUser());
+            var myUrl = "http://localhost:5001/api/users/history/" + currentUser().id;
+
+            currentUserHistory.removeAll();
+
+            var cb = function (data) {
+                console.log(data);
+                for (i = 0; i < data.data.length; i++) {
+                    specificUserHistory.push(data.data[i]);
+                    currentUserHistory.push(data.data[i]);
+                }
+
+            };
+
+            webservice.getPostQ(myUrl, cb);
+
+        }
+
 
         var getLinks = function (url) {
 
@@ -120,6 +184,7 @@
             links,
             username,
             getUserId,
+            getUserMarkings,
             specificUserName,
             specificUserAge,
             specificUserLocation,
@@ -128,12 +193,17 @@
             showBody,
             getNext,
             getPrev,
-            title,
             showNext,
             showPrev,
             getLinks,
-            displayNextPrev
-
+            displayNextPrev,
+            getUserByName,
+            specificUserMarkings,
+            currentUserMarkings,
+            specificUserHistory,
+            currentUserHistory,
+            getUserHistory,
+            postTitle
         };
 
     }

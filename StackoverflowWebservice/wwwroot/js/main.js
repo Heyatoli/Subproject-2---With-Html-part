@@ -32,7 +32,7 @@ require(['knockout'], function (ko) {
 
 require(['knockout', 'postman'], function(ko, postman) {
     var vm = (function() {
-        var currentView = ko.observable('post');
+        var currentView = ko.observable('user');
         var currentParams = ko.observable("!!!");
         var switchComponent = function (view) {
             currentView(view);
