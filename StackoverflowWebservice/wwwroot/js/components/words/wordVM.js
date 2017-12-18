@@ -1,4 +1,4 @@
-﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
+﻿define(['knockout', 'webservice'], function (ko, webservice) {
 
     return function (params) {
 
@@ -50,7 +50,7 @@
                     words.push(data[i]);
                 }
                 showWordCloud(true);
-                test(words());
+                wordCloud(words());
             };
             webservice.getPostQ(myUrl, cb);
         }
@@ -109,6 +109,5 @@
             myCloud
             
         };
-
     }
 });

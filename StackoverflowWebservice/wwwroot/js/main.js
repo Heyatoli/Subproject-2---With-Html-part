@@ -6,9 +6,7 @@
         jquery: '../lib/jQuery/dist/jquery.min',
         knockout: '../lib/knockout/dist/knockout',
         text: '../lib/text/text',
-        postman: 'services/postman',
         webservice: 'services/WebserviceCalls',
-        jqcloud2: '../lib/jqcloud2/dist/jqcloud'
     }
 });
 
@@ -30,23 +28,15 @@ require(['knockout'], function (ko) {
 
 });
 
-require(['knockout', 'postman'], function(ko, postman) {
+require(['knockout'], function(ko) {
     var vm = (function() {
         var currentView = ko.observable('user');
-        var currentParams = ko.observable("!!!");
         var switchComponent = function (view) {
             currentView(view);
         }
-
-        postman.subscribe(postman.events.changeView,
-            viewName => {
-                currentParams({ name: "Yahallo!"});
-                currentView(viewName);
-            });
-
+    
         return {
             currentView,
-            currentParams,
             switchComponent
         }
     })();
