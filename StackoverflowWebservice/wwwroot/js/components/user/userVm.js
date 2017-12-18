@@ -1,10 +1,13 @@
-﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
+﻿define(['knockout', 'webservice'], function (ko, webservice) {
 
     return function (params) {
 
-        var title = ko.observable("Titel på noget andet!");
-
         var username = ko.observable("");
+
+        var note = ko.observable("");
+        var createdSearch = ko.observable("");
+        var savedPostId = ko.observable("");
+        var savedNote = ko.observable("");
 
         var specificUserName = ko.observable("");
         var specificUserAge = ko.observable("");
@@ -12,7 +15,18 @@
         var specificUserCreation = ko.observable("");
 
         var currentUser = ko.observable("");
-        
+
+        var showUser = ko.observable(false);
+        var showHistMark = (false);
+
+        var specificUserMarkings = ko.observableArray([]);
+        var currentUserMarkings = ko.observableArray([]);
+
+        var specificUserHistory = ko.observableArray([]);
+        var currentUserHistory = ko.observableArray([]);
+
+        var postTitle = ko.observable("");
+
         var links = ko.observableArray([]);    // Initially an empty array
 
         var bodyTextDiv = ko.observable(false);
@@ -41,6 +55,23 @@
             getLinks(prev);
         }
 
+        var getUserByName = function () {
+
+            var myUrl = "http://localhost:5001/api/users/name/" + username();
+            links.removeAll();
+
+            var cb = function (data) {
+                for (i = 0; i < data.data.length; i++) {
+                    links.push(data.data[i]);
+                }
+                next = data.next;
+                prev = data.prev;
+                displayNextPrev(data.next, data.prev);
+            };
+
+            webservice.getPostQ(myUrl, cb);
+        }
+
         var getUsername = function () {
             console.log(username());
 
@@ -49,7 +80,7 @@
 
             var cb = function (data) {
 
-               
+
                 for (i = 0; i < data.data.length; i++) {
                     links.push(data.data[i]);
                 }
@@ -74,6 +105,53 @@
                 currentUser(data[0]);
             };
 
+            if (showUser === true) {
+                showUser(false);
+            }
+            else {
+                showUser(true);
+            }
+
+            webservice.getPostQ(myUrl, cb);
+
+        }
+
+        var getUserMarkings = function (url = null) {
+
+            var myUrl = currentUser().markingsLink;
+
+            currentUserMarkings.removeAll();
+
+            var cb = function (data) {
+                console.log(data);
+                for (i = 0; i < data.data.length; i++) {
+                    specificUserMarkings.push(data.data[i]);
+                    currentUserMarkings.push(data.data[i]);
+                }
+            };
+
+            webservice.getPostQ(myUrl, cb);
+
+        }
+
+        var getUserHistory = function (url = null) {
+
+            var myUrl = currentUser().historyLink;
+            console.log(currentUser());
+            var myUrl = "http://localhost:5001/api/users/history/" + currentUser().id;
+
+            currentUserHistory.removeAll();
+
+            var cb = function (data) {
+                console.log(data);
+                for (i = 0; i < data.data.length; i++) {
+                    specificUserHistory.push(data.data[i]);
+                    currentUserHistory.push(data.data[i]);
+                }
+
+            };
+
+
             webservice.getPostQ(myUrl, cb);
 
         }
@@ -97,6 +175,7 @@
             if (url == null) {
                 myUrl = "http://localhost:5001/api/users/";
             }
+            
 
             webservice.getPostQ(myUrl, cb);
         };
@@ -116,10 +195,74 @@
             }
         }
 
+        var deleteHistory = function (histId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/history/" + histId;
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var deleteMarking = function (postId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/" + currentUser().id + "/" + postId;
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var updateMarking = function (postId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/";
+            var data = {
+                userID : currentUser().id,
+                postId : postId,
+                note : note()
+            };
+            webservice.updateFunction(myUrl, cb, data);
+        }
+
+        var createHistory = function () {
+            var cb = function (data) {
+                alert("Created");
+            };
+            var myUrl = "http://localhost:5001/api/users/history/";
+            var data = {
+                userId: currentUser().id,
+                searchWord: createdSearch()
+            };
+            webservice.postFunction(myUrl, cb, data);
+        }
+
+        var createMarking = function (userId, postId, note) {
+            var cb = function (data) {
+                alert("Created");
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/";
+            var data = {
+                userID: currentUser().id,
+                postId: savedPostId(),
+                note: savedNote()
+            };
+            webservice.postFunction(myUrl, cb, data);
+        }
+
         return {
             links,
+            note,
+            savedNote,
+            savedPostId,
+            createHistory,
+            createMarking,
+            createdSearch,
+            deleteMarking,
+            deleteHistory,
+            updateMarking,
             username,
             getUserId,
+            getUserMarkings,
             specificUserName,
             specificUserAge,
             specificUserLocation,
@@ -128,12 +271,18 @@
             showBody,
             getNext,
             getPrev,
-            title,
             showNext,
             showPrev,
             getLinks,
-            displayNextPrev
-
+            displayNextPrev,
+            getUserByName,
+            specificUserMarkings,
+            currentUserMarkings,
+            specificUserHistory,
+            currentUserHistory,
+            getUserHistory,
+            postTitle,
+            showUser
         };
 
     }

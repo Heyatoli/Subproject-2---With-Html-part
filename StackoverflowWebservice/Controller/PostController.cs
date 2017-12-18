@@ -39,6 +39,7 @@ namespace WebService.Controllers
                 Body = x.text,
                 Date = x.creationDate,
                 Score = x.score,
+                id = x.id,
                 x.title
             });
             if (posts == null) return NotFound();

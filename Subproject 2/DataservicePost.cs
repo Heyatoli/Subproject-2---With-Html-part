@@ -10,33 +10,6 @@ namespace Subproject_2
 {
     public class DataservicePost : IDataServicePost
     {
-        public void Select_post_bywordandtag(string a, string b)
-        {
-            using (var db = new stackOverflowContext())
-            {
-
-                var conn = (MySqlConnection)db.Database.GetDbConnection();
-                conn.Open();
-                var cmd = new MySqlCommand();
-                cmd.Connection = conn;
-
-                cmd.Parameters.Add("@1", DbType.String);
-                cmd.Parameters.Add("@2", DbType.String);
-
-                cmd.Parameters["@1"].Value = a;
-                cmd.Parameters["@2"].Value = b;
-
-                cmd.CommandText = "call select_posts(@1, @2)";
-
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    Console.WriteLine((reader.GetInt32((int)0), reader.GetInt32(5), reader.GetString(6)));
-                }
-            }
-        }
-
         public List<Word> wordCloud(string search)
         {
 

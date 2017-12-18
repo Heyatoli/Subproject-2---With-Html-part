@@ -19,7 +19,7 @@ namespace Subproject_2
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseMySql(
-                "Server = localhost; Port = 3307; Database = mydb; Uid = root; Pwd = 1234;" //put your own UserID and Password here
+                "Server = 127.0.0.1; Port = 3306; Database = test; Uid = root; Pwd = ;" //put your own UserID and Password here
                 );
         }
 

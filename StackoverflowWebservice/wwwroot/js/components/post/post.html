@@ -9,159 +9,162 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Posts</h1>
+            <p>Welcome to our project. Below you will find all the information you need about the posts. Have fun!</p>
         </div>
     </div>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-6">
+                        <h5><strong>Overview</strong></h5>
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-auto">
-            <form class="form-inline my-2 my-lg-0">
-                <input data-bind='value: tag' class="form-control mr-sm-2" type="search" placeholder="Insert words">
-                <button data-bind="click: getPostWithTag" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for a specific tag</button>
+                <div class="separator"></div>
+        
+                <div class="col-auto mr-auto">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input data-bind='value: tag' class="form-control mr-sm-2" type="search" placeholder="Insert tag">
+                        <button data-bind="click: getPostWithTag" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            
+                <div class="separator"></div>
 
-                <input data-bind='value: postTitle' class="form-control mr-sm-2" type="search" placeholder="Insert words">
-                <button data-bind="click: getPostWithTitle" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for a specific question</button>
-            </form>
-        </div>
-        <p></p>
-        <div class="col-4 mr-auto">
-            <p></p>
-            <h5><strong>All posts</strong></h5>
-        </div>
-    </div>
-    <br>
+                <div class="col-auto">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input data-bind='value: postTitle' class="form-control mr-sm-2" type="search" placeholder="Insert post keyword">
+                        <button data-bind="click: getPostWithTitle" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+        
+                <br>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Date</th>
-                <th scope="col">Score</th>
-                <th scope="col">Link</th>
-            </tr>
-        </thead>
-    </table>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Link</th>
+                        </tr>
+                    </thead>
+                </table>
 
-    <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1">
-        <table class="table table-hover">
-            <tbody data-bind="foreach: links">
-                <tr>
-                    <td data-bind="text: $data.title"></td>
-                    <td></td>
-                    <td data-bind="text: $data.date"></td>
-                    <td data-bind="text: $data.score"></td>
-                    <td><button data-bind="click: $parent.getPostQ.bind($parent, $data.link)">Show Post</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                <div data-children=".item" data-bind="foreach: links">
+                    <div class="item">
+                        <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1" >
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td data-bind="text: $data.title"></td>
+                                        <td data-bind="text: $data.date"></td>
+                                        <td data-bind="text: $data.score"></td>
+                                        <td><button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: $parent.getPostQ.bind($parent, $data.link)">Show</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+            
+                    </div>
+                </div>
+                     
+                <nav>
+                    <ul class="pagination justify-content-center">
 
-    <nav>
-        <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a data-bind="click: getLinks()" class="page-link" href="#" tabindex="-1">First Page</a>
+                        </li>
 
-            <li class="page-item">
-                <a data-bind="click: getLinks()" class="page-link" href="#" tabindex="-1">First Page</a>
-            </li>
+                        <li class="page-item">
+                            <a data-bind="visible: showPrev, click: getPrev" class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
 
-            <li class="page-item">
-                <a data-bind="visible: showPrev, click: getPrev" class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
+                        <li class="page-item">
+                            <a data-bind="visible: showNext, click: getNext" class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
-            <li class="page-item">
-                <a data-bind="visible: showNext, click: getNext" class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+            <div class="col-md-6">
+                
+                <div class="row">
+                    <div class="col-6">
+                        <h5><strong>Selected post</strong></h5>
+                    </div>
+                </div>
 
-    <div data-bind="visible: showQuestion">
-        <h2>Question</h2>
-        <div class="card card-body">
-            <h3>Title</h3>
-            <p></p>
-            <div data-bind="text: specificPostTitle" id="data">adsaa</div>
-            <p></p>
-            <h3>Body</h3>
-            <p></p>
-            <div data-bind="text: specificPostBody" id="data"></div>
-        </div>
+                <div class="separator"></div>    
 
-        <p></p>
-        <button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: getComments(null)">Question comments</button><button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: getAnswers(null)">Answers</button>
-    </div>
+                <div roles="tabpanel" class="card card-body" data-bind="visible: showQuestion">
+                    <p class="mb-3">
+                        <strong data-bind="text: specificPostTitle" id="data"></strong>
+                        <div data-bind="text: specificPostBody" id="data"></div>
+                    </p>
+                    <div class="row">
+                        <button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: getComments(null)">Comments</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: getAnswers(null)">Answers</button>
+                    </div>
+                </div>
+    
+                <div class="separator"></div>
 
-    <p></p>
+                <div data-bind="visible: showComments">
+                    <div class="card card-body">
+                        <p><strong>Comments</strong></p>
+                        
+                        <div data-bind="foreach: currentPostComments">
+                            <p data-bind="text: $data.text"></p>
+                            <p>rating: <strong data-bind="text: $data.score"></strong> points</p>
+                            <hr />
+                        </div>
 
-    <div data-bind="visible: showAnswers">
-        <div class="card card-body">
-            <h2>Answers</h2>
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a data-bind="click: getPrevComments, visible: showPrevComments" class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
 
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Answer</th>
-                        <th scope="col">Link</th>
-                    </tr>
-                </thead>
-            </table>
+                                <li class="page-item">
+                                    <a data-bind="click: getNextComments, visible: showNextComments" class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
 
-            <table class="table table-hover">
-                <tbody data-bind="foreach: currentPostAnswers">
-                    <tr>
-                        <td data-bind="text: $data.body"></td>
-                        <td>space</td>
-                        <td><button data-bind="click: $parent.getComments.bind($parent, $data.commentsLink)">Comments</button></td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="separator"></div>
 
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a data-bind="click: getPrevAnswers, visible: showPrevAnswers" class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
+                <div data-bind="visible: showAnswers">
+                    <div class="card card-body">
+                        <p><strong>Question answers</strong></p>
 
-                    <li class="page-item">
-                        <a data-bind="click: getNextAnswers, visible: showNextAnswers" class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+                        <div data-bind="foreach: currentPostAnswers">
+                            <p data-bind="text: $data.body"></p>
+                            <button class="btn btn-outline-success my-2 my-sm-0" data-bind="click: $parent.getComments.bind($parent, $data.commentsLink)">Comments</button>
+                            <hr />
+                        </div>
 
-    <div data-bind="visible: showComments">
-        <div class="card card-body">
-            <h2>Comments</h2>
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a data-bind="click: getPrevAnswers, visible: showPrevAnswers" class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
 
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Comment</th>
-                        <th scope="col">Score</th>
-                    </tr>
-                </thead>
-            </table>
+                                <li class="page-item">
+                                    <a data-bind="click: getNextAnswers, visible: showNextAnswers" class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
 
-            <table>
-                <tbody data-bind="foreach: currentPostComments">
-                    <tr>
-                        <td data-bind="text: $data.text"></td>
-                        <td></td>
-                        <td data-bind="text: $data.score"></td>
-                    </tr>
-                </tbody>
-            </table>
 
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a data-bind="click: getPrevComments, visible: showPrevComments" class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-
-                    <li class="page-item">
-                        <a data-bind="click: getNextComments, visible: showNextComments" class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            </div>
+        
         </div>
     </div>
 

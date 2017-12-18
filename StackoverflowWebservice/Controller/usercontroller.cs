@@ -63,7 +63,10 @@ namespace StackoverflowWebservice.Controllers
             var users = _dataService.getUserById(id)
                 .Select(x => new
                 {
+                    MarkingsLink = Url.Link("GetUserMarkings", new { userId = id }),
+                    HistoryLink = Url.Link("GetUserHistory", new { userId = id }),
                     x.name,
+                    x.id,
                     x.age,
                     x.location,
                     x.creationDate
@@ -72,7 +75,7 @@ namespace StackoverflowWebservice.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{name}", Name = nameof(GetUsersByName))]
+        [HttpGet("name/{name}", Name = nameof(GetUsersByName))]
         public IActionResult GetUsersByName(string name, int page = 0, int pageSize = standardPageSize)
         {
             var totalUsers = _dataService.userNameAmount(name);
@@ -136,9 +139,9 @@ namespace StackoverflowWebservice.Controllers
                 Total = totalMarkings,
                 Pages = totalPages,
                 Page = page,
-                Prev = Link(nameof(GetUserHistory), page, pageSize, -1, () => page > 0),
-                Next = Link(nameof(GetUserHistory), page, pageSize, 1, () => page < totalPages - 1),
-                Url = Link(nameof(GetUserHistory), page, pageSize),
+                Prev = Link(nameof(GetUserMarkings), page, pageSize, -1, () => page > 0),
+                Next = Link(nameof(GetUserMarkings), page, pageSize, 1, () => page < totalPages - 1),
+                Url = Link(nameof(GetUserMarkings), page, pageSize),
                 Data = markings
             };
             return Ok(result);
