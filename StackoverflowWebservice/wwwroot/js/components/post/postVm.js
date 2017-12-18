@@ -188,14 +188,7 @@
             var cb = function (data) {
                 console.log(data);
                 for (i = 0; i < data.data.length; i++) {
-                    var post = {
-                        title: data.data[i].title,
-                        date: data.data[i].date,
-                        score: data.data[i].score,
-                        count: i
-                    };
-                    posts.push(post);
-                    //posts.push(data.data[i]);
+                    posts.push(data.data[i]);
                 }
                 next = data.next;
                 prev = data.prev;
