@@ -20,10 +20,7 @@
         var showHistMark = (false);
 
         var specificUserMarkings = ko.observableArray([]);
-        var currentUserMarkings = ko.observableArray([]);
-
         var specificUserHistory = ko.observableArray([]);
-        var currentUserHistory = ko.observableArray([]);
 
         var postTitle = ko.observable("");
 
@@ -73,7 +70,6 @@
         }
 
         var getUsername = function () {
-            console.log(username());
 
             var myUrl = "http://localhost:5001/api/users/" + username();
             links.removeAll();
@@ -94,14 +90,11 @@
 
         var getUserId = function (myUrl) {
 
-            //Calling function from Webservice
-            console.log(myUrl);
             var cb = function (data) {
                 specificUserName(data[0].name);
                 specificUserAge(data[0].age);
                 specificUserLocation(data[0].location);
                 specificUserCreation(data[0].creationDate);
-                console.log(data[0]);
                 currentUser(data[0]);
             };
 
@@ -120,13 +113,12 @@
 
             var myUrl = currentUser().markingsLink;
 
-            currentUserMarkings.removeAll();
+            specificUserMarkings.removeAll();
 
             var cb = function (data) {
                 console.log(data);
                 for (i = 0; i < data.data.length; i++) {
                     specificUserMarkings.push(data.data[i]);
-                    currentUserMarkings.push(data.data[i]);
                 }
             };
 
@@ -137,23 +129,16 @@
         var getUserHistory = function (url = null) {
 
             var myUrl = currentUser().historyLink;
-            console.log(currentUser());
             var myUrl = "http://localhost:5001/api/users/history/" + currentUser().id;
 
-            currentUserHistory.removeAll();
+            specificUserHistory.removeAll();
 
             var cb = function (data) {
-                console.log(data);
                 for (i = 0; i < data.data.length; i++) {
                     specificUserHistory.push(data.data[i]);
-                    currentUserHistory.push(data.data[i]);
                 }
-
             };
-
-
             webservice.getPostQ(myUrl, cb);
-
         }
 
         var getLinks = function (url) {
@@ -277,9 +262,7 @@
             displayNextPrev,
             getUserByName,
             specificUserMarkings,
-            currentUserMarkings,
             specificUserHistory,
-            currentUserHistory,
             getUserHistory,
             postTitle,
             showUser
