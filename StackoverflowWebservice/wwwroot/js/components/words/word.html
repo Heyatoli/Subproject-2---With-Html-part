@@ -20,22 +20,27 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Word Cloud and Weighted Post List</h1>
+            <p>Please write the search as a combinations of words seperated by commas (e.g "data,css")</p>
         </div>
     </div>
 
-    <div class="col-auto">
-        <p>Please write the search as a combinations of words seperated by commas (e.g "data,css")</p>
-        <form class="form-inline my-2 my-lg-0">
-            <input data-bind="value: search" class="form-control mr-sm-2" type="search" placeholder="Insert words">
-            <button button data-bind="click: getSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Word Cloud</button>
-            <button data-bind="click: getWeightedSearch.bind($parent, null)" class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Weighted Post List</button>
-        </form>
-    </div>
+    <div class="container">
+        <div class="col-auto">
+            <form class="form-inline my-2 my-lg-0">
+                <input data-bind="value: search" class="form-control mr-sm-2" type="search" placeholder="Insert words">
+                <button button data-bind="click: getSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Word Cloud</button>
+                <button data-bind="click: getWeightedSearch.bind($parent, null)" class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Weighted Post List</button>
+            </form>
+        </div>
 
-    <div data-bind="visible: showWordCloud" class="center-div">
-            <h2>Word Cloud</h2>
-            <div id="cloud" style="height : 300px; width : 300px;"></div>
-    </div>
+        <div class="separator"></div>
+        <div class="separator"></div>
+        <div class="separator"></div>
+        <div class="separator"></div>
+
+        <div data-bind="visible: showWordCloud" class="col-auto">
+                <div id="cloud" style="height: 400px; width: 100%;"></div>
+        </div>
 
         <div class="card card-body" data-bind="visible: showWeightedList">
             <h2>Posts with weights</h2>
@@ -78,7 +83,7 @@
                 <div data-bind="text: post"></div>
             </div>
         </div>
-
+    </div>
 
 </body>
 </html>
