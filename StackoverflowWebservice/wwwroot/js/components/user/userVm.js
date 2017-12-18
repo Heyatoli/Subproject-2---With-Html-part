@@ -11,6 +11,9 @@
 
         var currentUser = ko.observable("");
 
+        var showUser = ko.observable(false);
+        var showHistMark = (false);
+
         var specificUserMarkings = ko.observableArray([]);
         var currentUserMarkings = ko.observableArray([]);
 
@@ -97,6 +100,13 @@
                 currentUser(data[0]);
             };
 
+            if (showUser === true) {
+                showUser(false);
+            }
+            else {
+                showUser(true);
+            }
+
             webservice.getPostQ(myUrl, cb);
 
         }
@@ -113,7 +123,6 @@
                     specificUserMarkings.push(data.data[i]);
                     currentUserMarkings.push(data.data[i]);
                 }
-
             };
 
             webservice.getPostQ(myUrl, cb);
@@ -136,6 +145,7 @@
                 }
 
             };
+
 
             webservice.getPostQ(myUrl, cb);
 
@@ -203,7 +213,9 @@
             specificUserHistory,
             currentUserHistory,
             getUserHistory,
-            postTitle
+            postTitle,
+            showUser,
+            showHistMark
         };
 
     }
