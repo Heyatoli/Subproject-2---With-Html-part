@@ -282,8 +282,7 @@
             currentUserHistory,
             getUserHistory,
             postTitle,
-            showUser,
-            showHistMark
+            showUser
         };
 
     }
