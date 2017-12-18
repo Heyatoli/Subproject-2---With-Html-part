@@ -15,7 +15,6 @@
     };
 
     var deleteFunction = function (myUrl, callback) {
-        console.log("!!");
         $.ajax({
             url: myUrl,
             type: "DELETE",
@@ -24,29 +23,30 @@
             async: true,
             processData: false,
             cache: false,
-            success: function (data) {
-                callback(data);
+            success: function (textStatus) {
+                callback(textStatus);
             }
         });
     };
 
-    var postFunction = function (myUrl, callback) {
+    var postFunction = function (myUrl, callback, data) {
         $.ajax({
             url: myUrl,
             type: "POST",
             crossDomain: true,
+            data: JSON.stringify(data),
             dataType: 'json',
+            contentType: 'application/json',
             async: true,
             processData: false,
             cache: false,
-            success: function (data) {
+            success: function (data, textStatus, jQxhr) {
                 callback(data);
             }
         });
     };
 
     var updateFunction = function (myUrl, callback, data) {
-        console.log(data);
         $.ajax({
             url: myUrl,
             type: "PUT",
@@ -56,8 +56,8 @@
             async: true,
             processData: false,
             cache: false,
-            success: function (data) {
-                callback(data);
+            success: function (textStatus) {
+                callback(textStatus);
             }
         });
     };

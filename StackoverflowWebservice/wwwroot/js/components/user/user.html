@@ -55,7 +55,12 @@
     <div data-bind="text: specificUserLocation" id="data">adsaa</div>
     <div data-bind="text: specificUserCreation" id="data">adsaa</div>
     
-    
+    <input data-bind='value: createdSearch' class="form-control mr-sm-2" type="search" placeholder="Save a search" />
+    <button data-bind="click: createHistory" class="btn btn-outline-success my-2 my-sm-0" type="submit">Save a search word</button>
+
+    <input data-bind='value: savedPostId' class="form-control mr-sm-2" type="search" placeholder="Post Id" />
+    <input data-bind='value: savedNote' class="form-control mr-sm-2" type="search" placeholder="Add a note (optional)" />
+    <button data-bind="click: createMarking" class="btn btn-outline-success my-2 my-sm-0" type="submit">Save a post</button>
 
     <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1"> 
         <table class="table table-hover">
