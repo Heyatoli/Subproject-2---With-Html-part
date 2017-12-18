@@ -80,22 +80,20 @@
 
 
 
-    <div data-bind="component: {name: currentView, params: currentParams}"></div>
+    <div data-bind="component: {name: currentView}"></div>
 
     <script data-main="js/main" src="lib/requirejs/require.js"></script>
 
 
     <script type="text/javascript">
 
-        function test(data) {
+        function wordCloud(data) {
 
             var myWords = [];
 
             for (i = 0; i < data.length; i++) {
                 myWords[i] = { text: data[i].name, weight: data[i].weight };
             }
-
-            console.log(myWords);
 
             $(function () {
                 $("#cloud").jQCloud(myWords);

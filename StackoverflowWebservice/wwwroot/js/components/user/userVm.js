@@ -1,4 +1,4 @@
-﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
+﻿define(['knockout', 'webservice'], function (ko, webservice) {
 
     return function (params) {
 

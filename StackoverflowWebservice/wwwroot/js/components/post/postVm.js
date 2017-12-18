@@ -1,4 +1,4 @@
-﻿define(['knockout', 'postman', 'webservice'], function (ko, postman, webservice) {
+﻿define(['knockout', 'webservice'], function (ko, webservice) {
 
     return function (params) {
 
@@ -8,7 +8,7 @@
         var specificPostTitle = ko.observable("");
         var specificPostBody = ko.observable("");
 
-        var links = ko.observableArray([]);   
+        var posts = ko.observableArray([]);   
 
         var bodyTextDiv = ko.observable(false);
 
@@ -71,11 +71,11 @@
         var getPostWithTag = function () {
 
             var myUrl = "http://localhost:5001/api/posts/tag/" + tag();
-            links.removeAll();
+            posts.removeAll();
 
             var cb = function (data) {
                 for (i = 0; i < data.data.length; i++) {
-                    links.push(data.data[i]);
+                    posts.push(data.data[i]);
                 }
                 next = data.next;
                 prev = data.prev;
@@ -88,11 +88,11 @@
         var getPostWithTitle = function () {
 
             var myUrl = "http://localhost:5001/api/posts/title/" + postTitle();
-            links.removeAll();
+            posts.removeAll();
 
             var cb = function (data) {
                 for (i = 0; i < data.data.length; i++) {
-                    links.push(data.data[i]);
+                    posts.push(data.data[i]);
                 }
                 next = data.next;
                 prev = data.prev;
@@ -183,11 +183,18 @@
 
         var getLinks = function (url) {
 
-            links.removeAll();
+            posts.removeAll();
 
             var cb = function (data) {
                 for (i = 0; i < data.data.length; i++) {
-                    links.push(data.data[i]);
+                    var post = {
+                        title: data.data[i].title,
+                        date: data.data[i].date,
+                        score: data.data[i].score,
+                        count: i
+                    };
+                    posts.push(post);
+                    //posts.push(data.data[i]);
                 }
                 next = data.next;
                 prev = data.prev;
@@ -251,7 +258,7 @@
         }
 
         return {
-            links,
+            posts,
             showQuestion,
             getPostWithTag,
             getPostWithTitle,
@@ -282,6 +289,5 @@
             getLinks,
             displayNextPrev
         };
-
     }
 });
