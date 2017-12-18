@@ -12,6 +12,8 @@
         </div>
     </div>
 
+    <button data-bind="click: getLinks()">First page</button>
+
     <div class="row">
         <div class="col-auto">
             <form class="form-inline my-2 my-lg-0">
@@ -28,16 +30,6 @@
     </div>
     <br>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Username</th>
-                <th scope="col"></th>
-                <th scope="col">Link</th>
-            </tr>
-        </thead>
-    </table>
-
     <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1">
         <table class="table table-hover">
             <tbody data-bind="foreach: links">
@@ -50,64 +42,51 @@
         </table>
     </div>
 
-    <nav>
-        <ul class="pagination justify-content-center">
+    <div data-bind="visible: showNext"><button data-bind="click: getNext">next</button></div>
+    <div data-bind="visible: showPrev"><button data-bind="click: getPrev">prev</button></div>
 
-            <li class="page-item">
-                <a data-bind="click: getLinks()" class="page-link" href="#" tabindex="-1">First Page</a>
-            </li>
+    <h2>User</h2>
+    <button data-bind="click: getUserMarkings">Show marking</button>
+    <button data-bind="click: getUserHistory">Show history</button>
+    
 
-            <li class="page-item">
-                <a data-bind="visible: showPrev, click: getPrev" class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
+    <div data-bind="text: specificUserName" id="data">adsaa</div>
+    <div data-bind="text: specificUserAge" id="data">adsaa</div>
+    <div data-bind="text: specificUserLocation" id="data">adsaa</div>
+    <div data-bind="text: specificUserCreation" id="data">adsaa</div>
+    
+    <input data-bind='value: createdSearch' class="form-control mr-sm-2" type="search" placeholder="Save a search" />
+    <button data-bind="click: createHistory" class="btn btn-outline-success my-2 my-sm-0" type="submit">Save a search word</button>
 
-            <li class="page-item">
-                <a data-bind="visible: showNext, click: getNext" class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <input data-bind='value: savedPostId' class="form-control mr-sm-2" type="search" placeholder="Post Id" />
+    <input data-bind='value: savedNote' class="form-control mr-sm-2" type="search" placeholder="Add a note (optional)" />
+    <button data-bind="click: createMarking" class="btn btn-outline-success my-2 my-sm-0" type="submit">Save a post</button>
 
-    <div data-bind="visible: showUser">
-        <h2> User</h2>
-        <div class="card card-body">
-            <p></p>
-            <div data-bind="text: specificUserName" id="data">adsaa</div>
-            <p></p>
-            <div data-bind="text: specificUserAge" id="data">adsaa</div>
-            <p></p>
-            <div data-bind="text: specificUserLocation" id="data">adsaa</div>
-            <p></p>
-            <div data-bind="text: specificUserCreation" id="data">adsaa</div>
-           
-            <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1">
-                <h3> User history</h3> 
-                <button data-bind="click: getUserHistory" class="btn btn-outline-success my-2 my-sm-0">Show</button>
-                <table class="table table-hover">
-                    <tbody data-bind="foreach: specificUserHistory">
-                        <tr>
-                            <td data-bind="text: $data.id"></td>
-                            <td></td>
-                            <td data-bind="text: $data.searchWord"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1">
-                <h3>User Markings</h3> 
-                <button data-bind="click: getUserMarkings" class="btn btn-outline-success my-2 my-sm-0">Show</button>
-                <table class="table table-hover">
-                    <tbody data-bind="foreach: specificUserMarkings">
-                        <tr>
-                            <td data-bind="text: $data.postId"></td>
-                            <td></td>
-                            <td data-bind="text: $data.note"></td>
-                            <!-- her delete funktion -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> 
+    <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1"> 
+        <table class="table table-hover">
+            <tbody data-bind="foreach: specificUserMarkings">
+                <tr>
+                    <td data-bind="text: $data.postId"></td>
+                    <td></td>
+                    <td data-bind="text: $data.note"></td>
+                    <td><button data-bind="click: $parent.deleteMarking.bind($parent, $data.postId)">Delete</button></td>
+                    <td><input data-bind='value: $parent.note' class="form-control mr-sm-2" type="search" placeholder="Update Note" /><button data-bind="click: $parent.updateMarking.bind($parent, $data.postId)">Update Note</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div data-toggle="collapse" data-parent="#postsaccordion" href="#postsaccordion1" aria-expanded="true" aria-controls="postsaccordion1">
+        <table class="table table-hover">
+            <tbody data-bind="foreach: specificUserHistory">
+                <tr>
+                    <td data-bind="text: $data.id"></td>
+                    <td></td>
+                    <td data-bind="text: $data.searchWord"></td>
+                    <td><button data-bind="click: $parent.deleteHistory.bind($parent, $data.id)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

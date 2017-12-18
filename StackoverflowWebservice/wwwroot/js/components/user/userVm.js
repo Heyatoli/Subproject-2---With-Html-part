@@ -4,6 +4,11 @@
 
         var username = ko.observable("");
 
+        var note = ko.observable("");
+        var createdSearch = ko.observable("");
+        var savedPostId = ko.observable("");
+        var savedNote = ko.observable("");
+
         var specificUserName = ko.observable("");
         var specificUserAge = ko.observable("");
         var specificUserLocation = ko.observable("");
@@ -151,7 +156,6 @@
 
         }
 
-
         var getLinks = function (url) {
 
             links.removeAll();
@@ -171,6 +175,7 @@
             if (url == null) {
                 myUrl = "http://localhost:5001/api/users/";
             }
+            
 
             webservice.getPostQ(myUrl, cb);
         };
@@ -190,8 +195,71 @@
             }
         }
 
+        var deleteHistory = function (histId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/history/" + histId;
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var deleteMarking = function (postId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/" + currentUser().id + "/" + postId;
+            webservice.deleteFunction(myUrl, cb);
+        }
+
+        var updateMarking = function (postId) {
+            var cb = function (message) {
+                alert(message);
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/";
+            var data = {
+                userID : currentUser().id,
+                postId : postId,
+                note : note()
+            };
+            webservice.updateFunction(myUrl, cb, data);
+        }
+
+        var createHistory = function () {
+            var cb = function (data) {
+                alert("Created");
+            };
+            var myUrl = "http://localhost:5001/api/users/history/";
+            var data = {
+                userId: currentUser().id,
+                searchWord: createdSearch()
+            };
+            webservice.postFunction(myUrl, cb, data);
+        }
+
+        var createMarking = function (userId, postId, note) {
+            var cb = function (data) {
+                alert("Created");
+            };
+            var myUrl = "http://localhost:5001/api/users/markings/";
+            var data = {
+                userID: currentUser().id,
+                postId: savedPostId(),
+                note: savedNote()
+            };
+            webservice.postFunction(myUrl, cb, data);
+        }
+
         return {
             links,
+            note,
+            savedNote,
+            savedPostId,
+            createHistory,
+            createMarking,
+            createdSearch,
+            deleteMarking,
+            deleteHistory,
+            updateMarking,
             username,
             getUserId,
             getUserMarkings,
