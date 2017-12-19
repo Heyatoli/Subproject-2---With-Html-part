@@ -7,19 +7,19 @@ namespace Subproject_2
 {
     class stackOverflowContext : DbContext 
     {
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Combination> Combinations { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<History> History { get; set; }
-        public DbSet<Marking> Marking { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Post> posts { get; set; }
+        public DbSet<Combination> combinations { get; set; }
+        public DbSet<User> user { get; set; }
+        public DbSet<Comment> comments { get; set; }
+        public DbSet<History> history { get; set; }
+        public DbSet<Marking> marking { get; set; }
+        public DbSet<Tag> tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseMySql(
-                "Server = localhost; Port = 3307; Database = mydb; Uid = root; Pwd = 1234;" //put your own UserID and Password here
+                "Server = wt-220.ruc.dk; Port = 3306; Database = raw1; Uid = raw1; Pwd = raw1;" //put your own UserID and Password here
                 );
         }
 

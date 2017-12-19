@@ -48,7 +48,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query1 =
-                    (from c in db.Comments
+                    (from c in db.comments
                     where c.postId == postid
                     select new Comment
                     {
@@ -61,7 +61,7 @@ namespace Subproject_2
                     .ToList();
 
                 var query2 =
-                    (from p in db.Posts
+                    (from p in db.posts
                      where p.id == postid
                      select new Post
                      {
@@ -80,7 +80,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.Posts
+                    (from u in db.posts
                      where u.id.Equals(id)  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
                      select new Post
                      {
@@ -105,10 +105,10 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from t in db.Tags
-                     join c in db.Combinations
+                    (from t in db.tags
+                     join c in db.combinations
                      on t.id equals c.tags_id
-                     join p in db.Posts
+                     join p in db.posts
                      on c.post_id equals p.id
                      where t.name == tag
                      select new Post
@@ -137,8 +137,8 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.Posts
-                     join us in db.User
+                    (from u in db.posts
+                     join us in db.user
                      on u.user.id equals us.id
                      where us.id == postuserid 
                      select new Post
@@ -166,7 +166,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from p in db.Posts
+                    (from p in db.posts
                      where p.title.Contains(postword) 
                      select new Post
                      {
@@ -193,7 +193,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from p in db.Posts
+                    (from p in db.posts
                      where p.title.Contains(postWord)
                      select new Post
                      {
@@ -210,10 +210,10 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from t in db.Tags
-                     join c in db.Combinations
+                    (from t in db.tags
+                     join c in db.combinations
                      on t.id equals c.tags_id
-                     join p in db.Posts
+                     join p in db.posts
                      on c.post_id equals p.id
                      where t.name == tag
                      select new Post
@@ -230,8 +230,8 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.Posts
-                     join us in db.User
+                    (from u in db.posts
+                     join us in db.user
                      on u.user.id equals us.id
                      where us.id == postuserid
                      select new Post
@@ -248,7 +248,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var q =
-                    (from c in db.Comments
+                    (from c in db.comments
                      where c.postId == postid
                      select new Post
                      {
@@ -295,7 +295,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.Posts
+                    (from u in db.posts
                      where u.type == 1  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
                      select new Post
                      {
@@ -322,7 +322,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.Posts
+                    (from u in db.posts
                      where u.type == 2 && u.parent_id == id
                      select new Post
                      {
@@ -349,7 +349,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var q =
-                    (from p in db.Posts
+                    (from p in db.posts
                      where p.type == 1
                      select new Post
                      {
@@ -364,7 +364,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var q =
-                    (from p in db.Posts
+                    (from p in db.posts
                      where p.type == 2 && p.parent_id == id 
                      select new Post
                      {

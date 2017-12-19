@@ -23,7 +23,7 @@ namespace Subproject_2
                     searchWord = search
                 };
 
-                db.History.Add(query);
+                db.history.Add(query);
                 db.SaveChanges();
                 Console.WriteLine("Succesfully created");
                 return query;
@@ -42,7 +42,7 @@ namespace Subproject_2
                     note = note
                 };
 
-                db.Marking.Add(query);
+                db.marking.Add(query);
                 db.SaveChanges();
                 return query;
 
@@ -62,7 +62,7 @@ namespace Subproject_2
 
                 try
                 {
-                    db.Marking.Remove(delete);
+                    db.marking.Remove(delete);
                     db.SaveChanges();
                     Console.WriteLine("Deletion complete");
                     return true;
@@ -88,7 +88,7 @@ namespace Subproject_2
 
                 try
                 {
-                    db.History.Remove(delete);
+                    db.history.Remove(delete);
                     db.SaveChanges();
                     Console.WriteLine("Succesfully deleted");
                     return true;
@@ -109,7 +109,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query = (
-                    from m in db.Marking
+                    from m in db.marking
                     where m.userID == userid
                     select new Marking
                     {
@@ -125,7 +125,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var q =
-                    (from m in db.Marking
+                    (from m in db.marking
                      where m.userID == id
                      select new Marking
                      {
@@ -145,7 +145,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query = (
-                    from h in db.History
+                    from h in db.history
                     where h.userId == userid
                     select new History
                     {
@@ -162,7 +162,7 @@ namespace Subproject_2
             {
 
                 var q =
-                    (from h in db.History
+                    (from h in db.history
                      where h.userId == id
                      select new History
                      {
@@ -183,7 +183,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query = (
-                    from u in db.User
+                    from u in db.user
                     select new User
                     {
                         id = u.id
@@ -198,7 +198,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var q =
-                    (from u in db.User
+                    (from u in db.user
                      select new User
                      {
                          age = u.age,
@@ -221,7 +221,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query = (
-                    from u in db.User
+                    from u in db.user
                     where u.name.Contains(s)
                     select new User
                     {
@@ -237,7 +237,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var users =
-                    (from n in db.User
+                    (from n in db.user
                      where n.name.Contains(s)
                      select new User
                      {
@@ -267,7 +267,7 @@ namespace Subproject_2
 
                 try
                 {
-                    db.Marking.Update(update);
+                    db.marking.Update(update);
                     db.SaveChanges();
                     Console.WriteLine("Updated");
                     return true;
@@ -287,7 +287,7 @@ namespace Subproject_2
             using (var db = new stackOverflowContext())
             {
                 var query =
-                    (from u in db.User
+                    (from u in db.user
                      where u.id.Equals(id)  //Makes sure it's only questions and not answers - A good solution imo would be to include a boolean (withAnswers or something)
                      select new User
                      {
